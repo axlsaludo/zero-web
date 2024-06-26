@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,9 +12,17 @@
 </head>
 <body>
     <div>
-        <canvas class="container" id="donutCanvas"></canvas>
+        <h2>Welcome 
+            <?php
+            if (isset($_SESSION['user_firstname'])) {
+                echo htmlspecialchars($_SESSION['user_firstname']);
+            } else {
+                echo "Guest";
+            }
+            ?>!
+        </h2>
+
     </div>
-    <script src="../js/script.js"></script>   
 </body>
 
 <footer>

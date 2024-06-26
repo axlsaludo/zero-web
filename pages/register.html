@@ -8,50 +8,44 @@
 </head>
 <body>
     <main>
-      <a href ="../#"><h2>Register</h2></a>
+        <a href="../#"><h2>Register</h2></a>
         <div class="squircle">
-            <form>
+            <form method="post" action="../db/register.php">
                 <div class="content">
-                  <div class="input-field">
-                    <input type="name" placeholder="First Name" autocomplete="nope">
-                  </div>
-                  <div class="input-field">
-                    <input type="name" placeholder="Last Name" autocomplete="new-password">
-                  </div>
-                  <div>
-                    <p>...</p>
-                  </div>
-                  <div class="input-field">
-                    <input type="email" placeholder="Email" autocomplete="nope">
-                  </div>
-                  <div class="input-field">
-                    <input type="password" placeholder="Password" autocomplete="new-password">
-                  </div>
-                  <div class="input-field">
-                    <input type="password" placeholder="Re type Password" autocomplete="new-password">
-                  </div>
-                  <a href="../pages/forgot.html" class="link">Forgot Your Password?</a>
+                    <div class="input-field">
+                        <input type="text" name="first_name" placeholder="First Name" autocomplete="off" required>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" name="last_name" placeholder="Last Name" autocomplete="off" required>
+                    </div>
+                    <div class="input-field">
+                        <input type="email" name="email" placeholder="Email" autocomplete="off" required>
+                    </div>
+                    <div class="input-field">
+                        <input type="password" name="password" placeholder="Password" autocomplete="off" required>
+                    </div>
+                    <div class="input-field">
+                        <input type="password" name="retype_password" placeholder="Re-type Password" autocomplete="off" required>
+                    </div>
+                    <a href="../pages/forgot.html" class="link">Forgot Your Password?</a>
                 </div>
                 <div class="action">
-                  <button>Register</button>
-                  <button>Sign in</button>
+                    <button type="submit">Register</button>
+                    <button type="button">Sign in</button>
                 </div>
-              </form>
+            </form>
         </div>
     </main>
     <script src="../js/script.js"></script>
 </body>
-
 <footer>
     <div class="foot">
-        <a href="https://github.com/axlsaludo">github</a>
-        <a href="https://www.youtube.com/@logiclaboratories">youtube</a>
-        <a href="https://open.spotify.com/artist/2fn8GXn4sJ3MPYOe9MJJjm?si=SXnMZoZ2S8io3Um86cotFA">spotify</a>   
+        <a href="https://github.com/axlsaludo">GitHub</a>
+        <a href="https://www.youtube.com/@logiclaboratories">YouTube</a>
+        <a href="https://open.spotify.com/artist/2fn8GXn4sJ3MPYOe9MJJjm?si=SXnMZoZ2S8io3Um86cotFA">Spotify</a>   
     </div>
     <div>
         <a class="dot" href="https://logiclaboratories.vercel.app/">...</a>
     </div>
 </footer>
-
-
 </html>

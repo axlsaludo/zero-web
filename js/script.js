@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // Simulate loading time (adjust as needed)
         setTimeout(function() {
             // Redirect to the desired page after loading completes
-            window.location.href = '../pages/login.html'; // Replace with your desired page URL
+            window.location.href = '../axl.com/pages/login.html'; // Replace with your desired page URL
         }, 3000); // Adjust the delay (in milliseconds) as needed
     });
 });

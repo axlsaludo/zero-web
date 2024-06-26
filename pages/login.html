@@ -3,33 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kurt Axl Saludo</title>
+    <title>Login</title>
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
     <main>
-      <a href ="../#"><h2>Login</h2></a>
+        <a href="../#"><h2>Login</h2></a>
         <div class="squircle">
-            <form>
+            <form action="../db/login.php" method="POST"> <!-- Point form action to your login.php script -->
                 <div class="content">
-                  <div class="input-field">
-                    <input type="email" placeholder="Email" autocomplete="nope">
-                  </div>
-                  <div class="input-field">
-                    <input type="password" placeholder="Password" autocomplete="new-password">
-                  </div>
-                  <a href="../pages/forgot.html" class="link">Forgot Your Password?</a>
+                    <div class="input-field">
+                        <input type="email" name="email" placeholder="Email" autocomplete="nope">
+                    </div>
+                    <div class="input-field">
+                        <input type="password" name="password" placeholder="Password" autocomplete="new-password">
+                    </div>
+                    <a href="../pages/forgot.html" class="link">Forgot Your Password?</a>
                 </div>
                 <div class="action">
-                   <button> <a href="../pages/register.html"class=" regBtn">Register</a></button> </a>
-                  <button>Sign in</button>
+                    <button type="submit">Sign in</button>
+                    <a href="../pages/register.html" class="regBtn">Register</a>
                 </div>
-              </form>
+            </form>
         </div>
     </main>
     <script src="../js/script.js"></script>
 </body>
-
 <footer>
     <div class="foot">
         <a href="https://github.com/axlsaludo">github</a>
@@ -40,6 +39,4 @@
         <a class="dot" href="https://logiclaboratories.vercel.app/">...</a>
     </div>
 </footer>
-
-
 </html>
