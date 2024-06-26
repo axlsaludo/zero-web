@@ -10,19 +10,21 @@ session_start();
     <title>Donut</title>
     <link rel="stylesheet" href="../css/styles.css">
 </head>
-<body>
-    <div>
-        <h2>Welcome 
-            <?php
-            if (isset($_SESSION['user_firstname'])) {
-                echo htmlspecialchars($_SESSION['user_firstname']);
-            } else {
-                echo "Guest";
-            }
-            ?>!
-        </h2>
 
+<body>
+    <main>      
+    <div>
+        <h1>Dashboard</h1>
+        <div class="reg-data-table">
+            <h3>Registered Users</h3>
+            <li>1 | Kurt Axl Saludo</li>
+        </div>
+        <div class="active-user-data">
+            <h3>Active Users</h3>
+            <li>Status: Online | Kurt Axl Saludo</li>
+        </div>
     </div>
+</main>
 </body>
 
 <footer>
