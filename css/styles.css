@@ -40,14 +40,12 @@ body {
     }
 }
 
-
-
-
 header {
     text-align: center;
-    background-color: #13dc49;
     color: white;
-    width: 100%;
+    margin-top: 20px;
+    width: 20%;
+    border-bottom: 1px solid #929292;
 }
 
 main {
@@ -160,7 +158,7 @@ label{
 .button-enter:hover{
     transition-duration: 300ms;
     scale: 110%;
-    color:darkgoldenrod;
+    color:#B2533E;
 }
 
 /*  End of Landing */
@@ -212,6 +210,7 @@ label{
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
+    margin-bottom: 10px;
 }
 .action button:first-child {
     
@@ -221,9 +220,11 @@ label{
     color: #d6d6d6;
 }
 
-.regBtn{
-    color: white;
+.reg{
+    color:#B2533E;
 }
+
+
 
 /* Donut */
 

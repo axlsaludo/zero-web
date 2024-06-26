@@ -11,18 +11,19 @@ session_start();
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    <div>
-        <h2>Welcome 
-            <?php
-            if (isset($_SESSION['user_firstname'])) {
-                echo htmlspecialchars($_SESSION['user_firstname']);
-            } else {
-                echo "Guest";
-            }
-            ?>!
-        </h2>
-
-    </div>
+    <main>
+        <div>
+            <h2>Welcome 
+                <?php
+                if (isset($_SESSION['user_firstname'])) {
+                    echo htmlspecialchars($_SESSION['user_firstname']);
+                } else {
+                    echo "Guest";
+                }
+                ?>!
+            </h2>
+        </div>
+    </main>
 </body>
 
 <footer>

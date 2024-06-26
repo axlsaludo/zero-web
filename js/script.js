@@ -1,4 +1,4 @@
-// script.js
+// donut.c converted to js
 
 document.addEventListener("DOMContentLoaded", function() {
     const canvas = document.getElementById('donutCanvas');
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
 
-        ctx.font = '16px monospace';
+        ctx.font = '12px monospace';
         ctx.fillText('whoa!! a donut', 350, 10); // Adjust text position as needed
 
         for (let k = 0; k < 1760; k++) {
