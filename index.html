@@ -14,20 +14,28 @@
         </div>
 
         <div class="enter">
-            <a href="../pages/login.html"><button class="button-enter">Enter</button></a>
+            <!-- Button to trigger showing the loader -->
+            <button id="enterButton" class="button-enter">Enter</button>
         </div>
     </main>
+
+    <!-- Hidden loader canvas -->
+    <div id="loader">
+        <canvas class="donut" id="donutCanvas"></canvas>
+    </div>
+
+    <footer>
+        <div class="foot">
+            <a href="https://github.com/axlsaludo">GitHub</a>
+            <a href="https://www.youtube.com/@logiclaboratories">YouTube</a>
+            <a href="https://open.spotify.com/artist/2fn8GXn4sJ3MPYOe9MJJjm?si=SXnMZoZ2S8io3Um86cotFA">Spotify</a>   
+        </div>
+        <div>
+            <a class="dot" href="https://logiclaboratories.vercel.app/">...</a>
+        </div>
+    </footer>
+
+    <!-- JavaScript to control loader visibility and animation -->
+    <script src="js/script.js"></script>
 </body>
-
-<footer>
-    <div class="foot">
-        <a href="https://github.com/axlsaludo">github</a>
-        <a href="https://www.youtube.com/@logiclaboratories">youtube</a>
-        <a href="https://open.spotify.com/artist/2fn8GXn4sJ3MPYOe9MJJjm?si=SXnMZoZ2S8io3Um86cotFA">spotify</a>   
-    </div>
-    <div>
-        <a class="dot" href="https://logiclaboratories.vercel.app/">...</a>
-    </div>
-</footer>
-
 </html>
