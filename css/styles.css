@@ -20,7 +20,6 @@ body {
 
 header {
     text-align: center;
-    padding: 20px;
     background-color: #13dc49;
     color: white;
     width: 100%;
@@ -61,4 +60,18 @@ p {
     margin-bottom: 10px;
     color: #d6d6d6;
     text-align: center;
+}
+
+.squircle{
+    background: rgba(68, 68, 68, 0.41);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(68, 68, 68, 0.13);
+    padding: 100px;
+    
+}
+
+.squircle:hover{
+    transition-duration: 300ms;
+    scale: 110%;
 }
