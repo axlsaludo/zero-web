@@ -7,9 +7,11 @@ body, h1, h2, h3, p, a {
 }
 
 body {
+    background: radial-gradient( white, #3c3c3c, #4c4c4c, #2d2d2d, #2d2d2d, #636363, #2d2d2d);
     background-color: #2d2d2d;
-    background-size: cover;
+    background-size: 400% 400%;
     background-repeat: no-repeat;
+    animation: gradient 15s ease-in-out infinite;
     line-height: 1.6;
     display: flex;
     flex-direction: column;
@@ -17,6 +19,19 @@ body {
     align-items: center;
     height: 100vh;
 }
+
+@keyframes gradient {
+    0% {
+        background-position: 10% 0%;
+    }
+    50% {
+        background-position: 40% 10%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 
 header {
     text-align: center;
@@ -62,16 +77,38 @@ p {
     text-align: center;
 }
 
+a{
+    color: grey;
+}
+
+.foot{
+    margin-bottom: 10px;
+}
+
 .squircle{
-    background: rgba(68, 68, 68, 0.41);
+    background: rgba(68, 68, 68, 0.05);
     border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.01);
     border: 1px solid rgba(68, 68, 68, 0.13);
     padding: 100px;
-    
 }
 
 .squircle:hover{
+    transition-duration: 300ms;
+    scale: 110%;
+    
+    
+}
+
+.dot{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+}
+
+.dot:hover{
     transition-duration: 300ms;
     scale: 110%;
 }
