@@ -12,12 +12,9 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Donut</title>
-    <link rel="stylesheet" href="../css/styles.css">
-</head>
+
+<?php include '../components/head.html';?>
+
 <body>
     <main>
         <div>
@@ -38,14 +35,6 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 <div id="footerDiv"><object type="text/html" data="footer.html" style="overflow:auto; width: 100%; height: 100%"></object></div>
 
-<footer>
-    <div class="foot">
-        <a class="ft-link" href="https://github.com/axlsaludo">github</a>
-        <a class="ft-link" href="https://www.youtube.com/@logiclaboratories">youtube</a>
-        <a class="ft-link" href="https://open.spotify.com/artist/2fn8GXn4sJ3MPYOe9MJJjm?si=SXnMZoZ2S8io3Um86cotFA">spotify</a>   
-    </div>
-    <div>
-        <a class="dot" href="https://logiclaboratories.vercel.app/">...</a>
-    </div>
-</footer>
+<?php include '../components/footer.html';?>
+
 </html>

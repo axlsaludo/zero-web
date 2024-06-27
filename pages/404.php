@@ -15,14 +15,7 @@
         </div>
     </main>
 </body>
-<footer>
-    <div class="foot">
-        <a class="ft-link" href="https://github.com/axlsaludo">github</a>
-        <a class="ft-link" href="https://www.youtube.com/@logiclaboratories">youtube</a>
-        <a class="ft-link" href="https://open.spotify.com/artist/2fn8GXn4sJ3MPYOe9MJJjm?si=SXnMZoZ2S8io3Um86cotFA">spotify</a>   
-    </div>
-    <div>
-        <a class="dot" href="https://logiclaboratories.vercel.app/">...</a>
-    </div>
-</footer>
+
+<?php include '../components/footer.html';?>
+
 </html>

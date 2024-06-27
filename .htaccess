@@ -7,3 +7,5 @@ RewriteRule ^(.*)$ index.php [L,QSA]
 
 # Custom 404 error page
 ErrorDocument 404 /pages/404.php
+
+AddType application/x-httpd-php .html .htm
