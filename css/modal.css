@@ -1,0 +1,47 @@
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    z-index: 9999; /* Ensure modal is on top */
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+}
+
+.modal-content {
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px; /* Limit modal width if needed */
+    animation-name: modal-animation;
+    animation-duration: 0.4s;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Optional: add shadow for better visual */
+    background-color: #3c3c3c;
+    color: #000;
+    border-radius: 20px;
+    padding: 10px 30px 70px;
+}
+
+@keyframes modal-animation {
+    from { opacity: 0; transform: translateY(-50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}

@@ -1,5 +1,6 @@
 <?php
-include '../db/dbconn.php';
+session_start();
+include 'dbconn.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
@@ -11,23 +12,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($user) {
-        // Verify password
-        if (password_verify($password, $user['password'])) {
-            // Regenerate session ID
-            session_regenerate_id(true);
-            // Set session variables
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['user_email'] = $user['email'];
-            $_SESSION['user_first_name'] = $user['first_name'];
-            $_SESSION['user_last_name'] = $user['last_name'];
-            header("Location: ../pages/landing.php");
-            exit;
-        } else {
-            echo "Incorrect password.";
-        }
+    if ($user && password_verify($password, $user['password'])) {
+        $_SESSION['user_id'] = $user['id'];
+        
+        // Update user status to active
+        $stmt = $conn->prepare("UPDATE users SET is_active = 1 WHERE id = :id");
+        $stmt->bindParam(':id', $user['id']);
+        $stmt->execute();
+
+        // Successful login response
+        echo json_encode(array("success" => "Login successful."));
+        exit;
     } else {
-        echo "User with that email does not exist.";
+        // Failed login response
+        echo json_encode(array("error" => "Invalid email or password."));
+        exit;
     }
 }
 ?>
