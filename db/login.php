@@ -14,14 +14,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($user) {
         // Verify password
-        if (password_verify($password, $user['password'])) {
-            // Regenerate session ID
-            session_regenerate_id(true);
-            // Set session variables
+        if ($user && password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
-            $_SESSION['user_email'] = $user['email'];
-            $_SESSION['user_first_name'] = $user['first_name'];
-            $_SESSION['user_last_name'] = $user['last_name'];
+            
+            // Update user status to active
+            $stmt = $conn->prepare("UPDATE users SET is_active = 1 WHERE id = :id");
+            $stmt->bindParam(':id', $user['id']);
+            $stmt->execute();
             header("Location: ../pages/landing.php");
             exit;
         } else {
@@ -29,8 +28,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } else {
         echo "User with that email does not exist.";
-
-
     }
 }
 ?>

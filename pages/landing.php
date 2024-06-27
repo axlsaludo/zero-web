@@ -1,5 +1,4 @@
 <?php
-session_start();
 include '../db/dbconn.php';
 include '../db/sessionCheck.php';
 ?>
@@ -8,14 +7,23 @@ include '../db/sessionCheck.php';
 <html lang="en">
 
 <?php include '../components/headpages.html';?>
+<link rel="stylesheet" href="../css/landing.css">
 
 <header>
     <h1>Dashboard</h1>
 </header>
 
+<!-- Logout Button -->
+<div class="logout">
+    <form action="../db/logout.php" method="post">
+        <button type="submit">Logout</button>
+    </form>
+</div>
+
+
 <body>
     <main>      
-        <div>
+        <div class="card-container">
             <div class="reg-data-table">
                 <h3>Registered Users</h3>
                 <?php
@@ -58,10 +66,7 @@ include '../db/sessionCheck.php';
         </div>
     </main>
 
-    <!-- Logout Button -->
-    <form action="../db/logout.php" method="post">
-        <button type="submit">Logout</button>
-    </form>
+    
 
 </body>
 

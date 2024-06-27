@@ -245,20 +245,7 @@ li{
 
 }
 
-.reg-data-table{
-    display: inline-block;
-    background: rgba(68, 68, 68, 0.25);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(68, 68, 68, 0.13);
-    padding: 30px;
-}
-
-.active-user-data{
-    display: inline-block;
-    background: rgba(68, 68, 68, 0.25);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(68, 68, 68, 0.13);
-    padding: 30px;
+/* Game */
+.game{
+    scale: 50%;
 }
