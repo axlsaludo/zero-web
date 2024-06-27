@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mono</title>
+    <link rel="icon" type="image/png" href="/public/logo.png"/>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<style>
+    body {
+        background: radial-gradient(circle, #374024, #626c4d, #96a081,#bfc9ac, #374024);
+        background-color: #2d2d2d;
+        background-size: 200% 200%;
+        background-repeat: no-repeat;
+        animation: gradient 20s ease-in-out infinite;
+        line-height: 1.6;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    
+    @keyframes gradient {
+        0% {
+            background-position: 20% 20%;
+        }
+        50% {
+            background-position: 100% 100%;
+        }
+        100% {
+            background-position: 20% 20%;
+        }
+    }
+</style>
+<body>
+    <main>
+        <div class="squircle-landing">
+            <h2 class="hello">404 Not Found </h2>
+            <p>The Page You Are Looking Does Not Exist</p>
+        </div>
+
+        <div class="enter">
+            <a href="../index.html" class="button-enter">Enter</a>
+        </div>
+    </main>
+</body>
+
+<?php include 'footer.html';?>
+
+</html>
