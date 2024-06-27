@@ -1,6 +1,6 @@
 /* Modal styles */
 .modal {
-    display: none;
+    display: none; /* Initially hidden */
     position: fixed;
     top: 0;
     left: 0;
@@ -11,7 +11,7 @@
     overflow: auto;
     display: flex;
     justify-content: center;
-    align-items: center;    
+    align-items: center;
 }
 
 .modal-content {
@@ -22,9 +22,10 @@
     animation-duration: 0.4s;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Optional: add shadow for better visual */
     background-color: #3c3c3c;
-    color: #000;
+    color: #fff; /* Text color changed to white */
     border-radius: 20px;
-    padding: 10px 30px 70px;
+    padding: 20px; /* Adjusted padding for content */
+    text-align: center; /* Center align text */
 }
 
 @keyframes modal-animation {
@@ -34,14 +35,15 @@
 
 .close {
     color: #aaaaaa;
-    float: right;
-    font-size: 28px;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
     font-weight: bold;
 }
 
 .close:hover,
 .close:focus {
-    color: #000;
+    color: #fff; /* Hover color changed to white */
     text-decoration: none;
     cursor: pointer;
 }

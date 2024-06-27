@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="../css/styles.css">
-    <link rel="stylesheet" href="../css/modal.css"> <!-- Ensure modal styles are linked -->
 </head>
 <body>
     <main>
         <a href="../#"><h2>Login</h2></a>
         <div class="squircle">
-            <form id="loginForm" action="../db/login.php" method="POST">
+            <form id="loginForm" action="../db/login.php" method="POST"> <!-- Restore action attribute for form submission -->
                 <div class="content">
                     <div class="input-field">
                         <input type="email" id="email" name="email" placeholder="Email" autocomplete="nope">
@@ -30,60 +29,6 @@
             </form>
         </div>
     </main>
-
-    <!-- Modal for Alerts -->
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span> <!-- Close modal button -->
-            <p id="modalText"></p> <!-- Display dynamic message -->
-        </div>
-    </div>
-
-    <script>
-        // Function to close the modal
-        function closeModal() {
-            var modal = document.getElementById("myModal");
-            modal.style.display = "none";
-        }
-
-        // Get the form element
-        var form = document.getElementById("loginForm");
-
-        // Add submit event listener
-        form.addEventListener("submit", function(event) {
-            event.preventDefault(); // Prevent form from submitting normally
-
-            // Fetch form data
-            var formData = new FormData(form);
-
-            // Send form data via fetch to login.php
-            fetch("../db/login.php", {
-                method: "POST",
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    showModal(data.error); // Show error message in modal
-                } else {
-                    // Redirect to landing page on successful login (if needed)
-                    // window.location.href = "../pages/landing.php";
-                    console.log("Login successful"); // Placeholder for successful login action
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-        });
-
-        // Function to show modal with message
-        function showModal(message) {
-            var modalText = document.getElementById("modalText");
-            modalText.textContent = message;
-            var modal = document.getElementById("myModal");
-            modal.style.display = "block";
-        }
-    </script>
-
+    <script src="../js/script.js"></script>
 </body>
 </html>
