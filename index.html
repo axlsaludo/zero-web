@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php include 'components/head.html';?>
+<link rel="stylesheet" href="css/flashlight.css"
 <body>
     <main>
         <div class="squircle-landing">
-            <h2 class="hello">Hello and Welcome </h2>
+            <h2 class="hello">Hello and Welcome</h2>
             <p>Welcome to my Profile I am Kurt Axl Saludo</p>
         </div>
 
@@ -15,9 +16,12 @@
     <div id="loader">
         <canvas class="donut" id="donutCanvas"></canvas>
     </div>
+
+    <div id="flashlight"></div> <!-- Flashlight effect overlay -->
+
+    <?php include 'components/footer.html';?>
+    
+    <script src="../axl.com/js/script.js"></script>
+    <script src="../axl.com/js/followcursor.js"></script> <!-- New script to handle the flashlight effect -->
 </body>
-
-<?php include 'components/footer.html';?>
-
-<script src="../axl.com/js/script.js"></script>
 </html>

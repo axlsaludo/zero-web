@@ -36,7 +36,7 @@
     border-radius: 5px;
     color: white;
 
-    background: rgba(78, 78, 75, 0.55);
+    background: rgba(34, 89, 86, 0.55);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(68, 68, 68, 0.23);
 }
@@ -46,3 +46,4 @@
     animation-duration: 500ms;
     background-color: #4c4c4c;
 }
+

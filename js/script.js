@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Set canvas size
     canvas.width = 820;
-    canvas.height = 250;
+    canvas.height = 220;
 
     let A = 0;
     let B = 0;
@@ -15,8 +15,8 @@ document.addEventListener("DOMContentLoaded", function() {
         ctx.fillStyle = 'white';
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
-        const z = new Array(1760).fill(0);
-        const b = new Array(1760).fill(' ');
+        const z = new Array(2760).fill(0);
+        const b = new Array(2760).fill(' ');
 
         for (let j = 0; j < 6.28; j += 0.07) {
             for (let i = 0; i < 6.28; i += 0.02) {

@@ -1,0 +1,14 @@
+#flashlight {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 850px; /* Diameter of the flashlight circle */
+    height: 850px; /* Diameter of the flashlight circle */
+    background: radial-gradient(circle, rgba(169, 169, 169, 0.49) 20%, rgba(157, 157, 157, 0) 70%,rgba(224, 224, 224, 0) 50%);
+    pointer-events: none; /* Allows interactions with underlying elements */
+    mix-blend-mode: overlay; /* Blend the overlay with the background */
+    border-radius: 80%;
+    transform: translate(-50%, -50%); /* Center the circle at the cursor */
+    transition: background-position 0.1s;
+    filter: blur(20px);
+} 

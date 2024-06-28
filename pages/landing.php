@@ -64,12 +64,7 @@ include '../db/sessionCheck.php';
                 ?>
             </div>
         </div>
-    </main>
-
-    
+    </main> 
 
 </body>
-
-<?php include '../components/footer.html';?>
-
 </html>
