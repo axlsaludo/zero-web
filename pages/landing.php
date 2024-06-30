@@ -1,70 +1,101 @@
 <?php
-include '../db/dbconn.php';
-include '../db/sessionCheck.php';
+    // Include headpages.html for common head elements
+    include '../components/headpages.html';
+
+    // Database credentials
+    $host = 'localhost';
+    $user = 'root';
+    $password = '';
+    $dbname = 'accounts'; // Database name for leaderboards
+
+    // PDO connection
+    $dsn = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";
+
+    try {
+        // Connect to MySQL using PDO
+        $pdo = new PDO($dsn, $user, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        // Create leaderboard_scores table if not exists
+        $createTableSql = "
+            CREATE TABLE IF NOT EXISTS leaderboard_scores (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                user_id INT UNSIGNED NOT NULL,
+                score INT NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users(id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+        ";
+
+        // Execute the create table query
+        $pdo->exec($createTableSql);
+
+        // Query to fetch leaderboard scores
+        $stmt = $pdo->query("SELECT u.first_name, u.last_name, ls.score
+                             FROM leaderboard_scores ls
+                             INNER JOIN users u ON ls.user_id = u.id
+                             ORDER BY ls.score DESC
+                             LIMIT 10"); // Limit to top 10 scores
+
+        // Fetch leaderboard data into an array
+        $leaderboardData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        echo "Connection failed or query error: " . $e->getMessage();
+        exit;
+    }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
-<?php include '../components/headpages.html';?>
-<link rel="stylesheet" href="../css/landing.css">
-
-<header>
-    <h1>Dashboard</h1>
-</header>
-
-<!-- Logout Button -->
-<div class="logout">
-    <form action="../db/logout.php" method="post">
-        <button type="submit">Logout</button>
-    </form>
-</div>
-
+<head>
+    <link rel="stylesheet" href="../css/landing.css">
+    <link rel="stylesheet" href="../css/game.css">
+</head>
 
 <body>
-    <main>      
+    <header>
+        <h1>Snakes Game</h1>
+    </header>
+
+    <!-- Logout Button -->
+    <div class="logout">
+        <form action="../db/logout.php" method="post">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+
+    <main>
         <div class="card-container">
-            <div class="reg-data-table">
-                <h3>Registered Users</h3>
-                <?php
-                // Fetch registered users
-                $stmt = $conn->prepare("SELECT id, first_name, last_name FROM users");
-                $stmt->execute();
-                $registeredUsers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                if ($registeredUsers) {
-                    echo '<ul>';
-                    foreach ($registeredUsers as $user) {
-                        echo '<li>' . $user['id'] . ' | ' . $user['first_name'] . ' ' . $user['last_name'] . '</li>';
+            <div class="stage"></div> 
+
+            <div class="leaderboards">
+                <h3>Leaderboards</h3>
+                <p>Rank  |  Name -  Score</p>
+                <p>------------------------</p>
+                <p> 1 | Kurt Axl Saludo - 50</p>
+                <p>------------------------</p>
+                <p>this is mock data only</p>
+                <p>(waiting for ajax support)</p>    
+                <?php
+                    // Display leaderboard scores dynamically
+                    foreach ($leaderboardData as $index => $row) {
+                        $rank = $index + 1;
+                        $fullName = $row['first_name'] . ' ' . $row['last_name'];
+                        $score = $row['score'];
+                        echo "<p>$rank | $fullName - $score</p>";
                     }
-                    echo '</ul>';
-                } else {
-                    echo '<p>No registered users found.</p>';
-                }
                 ?>
             </div>
 
-            <div class="active-user-data">
-                <h3>Active Users</h3>
-                <?php
-                // Assuming you have a mechanism to track active users, e.g., a field 'is_active' in the users table
-                $stmt = $conn->prepare("SELECT first_name, last_name FROM users WHERE is_active = 1");
-                $stmt->execute();
-                $activeUsers = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                if ($activeUsers) {
-                    echo '<ul>';
-                    foreach ($activeUsers as $user) {
-                        echo '<li>Status: Online | ' . $user['first_name'] . ' ' . $user['last_name'] . '</li>';
-                    }
-                    echo '</ul>';
-                } else {
-                    echo '<p>No active users found.</p>';
-                }
-                ?>
+            <div class="controls">
+                <h3>Score</h3>
+                <div class="score">0</div>
             </div>
-        </div>
+
+        </div>    
     </main> 
-
+    <script src="../js/game.js"></script>
 </body>
 </html>
