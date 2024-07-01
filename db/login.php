@@ -25,16 +25,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Check if user is admin
             if ($user['is_admin']) {
                 $_SESSION['is_admin'] = true;
-                header("Location: ../pages/dashboard.php"); // Redirect admin to dashboard
+                header("Location: ../pages/dashboard.html"); // Redirect admin to dashboard
             } else {
-                header("Location: ../pages/landing.php"); // Redirect normal user to landing page
+                header("Location: ../pages/landing.html"); // Redirect normal user to landing page
             }
             exit;
         } else {
-            echo "Incorrect password.";
+            header("Location: ../pages/login.html"); 
         }
     } else {
-        echo "User with that email does not exist.";
+        header("Location: ../pages/login.html"); 
     }
 }
 ?>

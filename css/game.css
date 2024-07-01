@@ -36,22 +36,24 @@ body{
     display: grid;
     grid-template-columns: auto 1fr; /* Define two columns: auto for side elements, 1fr for stage */
     grid-template-rows: auto 1fr; /* Define two rows: auto for leaderboards, 1fr for stage */
-    gap: 20px; /* Space between columns and rows */
+    gap: 10px; /* Space between columns and rows */
   }
 
-.leaderboards {
+  .leaderboards {
     background: rgba(68, 68, 68, 0.25);
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(68, 68, 68, 0.13);
     padding: 30px;
-    margin-left: 50px; /* Add margin to create space between elements */
-    min-height: 600px;
-    min-width: 300px;
-}
-
-.controls {
-    display: flexbox;
+    margin: 10px; /* Adjust margin to create space between elements */
+    min-height: 200px;
+    min-width: 200px;
+    max-width: 100%; /* Allow it to scale with the screen size */
+    overflow-x: auto; /* Enable horizontal scrolling if content overflows */
+  }
+  
+  .controls {
+    display: flex;
     background: rgba(68, 68, 68, 0.25);
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -59,9 +61,29 @@ body{
     padding: 30px;
     min-height: 200px;
     min-width: 300px;
-    margin-left: 50px; /* Add margin to create space between elements */
+    margin: 20px; /* Adjust margin to create space between elements */
     margin-top: auto; /* Push the controls to the bottom */
-}
+    flex-wrap: wrap; /* Allow controls to wrap on smaller screens */
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .leaderboards,
+    .controls {
+      min-width: 100%; /* Allow full width for smaller screens */
+      margin: 10px 0; /* Margin adjustment for stacking */
+      padding: 20px; /* Adjust padding for smaller screens */
+    }
+  
+    .leaderboards {
+      min-height: 300px; /* Adjust minimum height for smaller screens */
+    }
+  
+    .controls {
+      min-height: 150px; /* Adjust minimum height for smaller screens */
+    }
+  }
+  
 
 .stage {
     grid-column: 2;

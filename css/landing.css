@@ -1,49 +1,62 @@
-.card-container {
+/* General styles */
+.dashTxt {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .card-container {
     display: flex;
     justify-content: space-between; /* Adjust alignment as needed */
-}
-
-.reg-data-table {
+    flex-wrap: wrap; /* Allow items to wrap to the next line on smaller screens */
+  }
+  
+  /* Data tables */
+  .reg-data-table,
+  .active-user-data {
     display: inline-block;
     background: rgba(68, 68, 68, 0.25);
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(68, 68, 68, 0.13);
     padding: 30px;
-    margin-right: 5px; /* Adjust margin to create space */
-    max-height: 700px;
-}
-
-.active-user-data {
-    display: inline-block;
-    background: rgba(68, 68, 68, 0.25);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(68, 68, 68, 0.13);
-    padding: 30px;
-    margin-left: 5px; /* Adjust margin to create space */
+    margin: 10px; /* Adjust margin to create space */
+    flex: 1; /* Allow flexible growth */
+    min-width: 200px; /* Minimum width to prevent too narrow columns */
+  }
+  
+  .active-user-data {
     max-height: 200px;
-}
-
-
-.logout{
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .reg-data-table,
+    .active-user-data {
+      max-width: 100%; /* Allow full width for smaller screens */
+      margin: 10px 0; /* Margin adjustment for stacking */
+    }
+  }
+  
+  /* Logout button */
+  .logout {
     margin-top: 20px;
-}
-
-.logout button{
+  }
+  
+  .logout button {
     padding: 5px;
     min-width: 100px;
     border-radius: 5px;
     color: white;
-
     background: rgba(34, 89, 86, 0.55);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(68, 68, 68, 0.23);
-}
-
-.logout button:hover{
-    scale: 110%;
-    animation-duration: 500ms;
-    background-color: #4c4c4c;
-}
-
+    transition: transform 0.5s, background-color 0.5s; /* Smooth transition */
+  }
+  
+  .logout button:hover {
+    transform: scale(1.1); /* Scale effect on hover */
+    background-color: #4c4c4c; /* Darker background on hover */
+  }
+  

@@ -1,17 +1,16 @@
+
+/* init style */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     font-family: monospace;
-  }
+}
 
-body, h1, h2, h3, p, a{
-    margin: 0;
-    padding: 0;
-    text-decoration: none;
+body, h1, h2, h3, p, a {
     color: inherit;
-
 }
 
 body {
@@ -24,11 +23,11 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0; /* Ensure there's no margin causing overflow */
+    min-height: 100vh;
+    margin: 0;
     animation: gradient 20s ease-in-out infinite;
-    position: relative; /* Required for the flashlight effect */
-    overflow: hidden; /* Prevents the flashlight effect from causing scrollbars */
+    position: relative;
+    overflow: hidden;
 }
 
 @keyframes gradient {
@@ -68,7 +67,6 @@ h1 {
     font-size: 2.5em;
     margin-bottom: 10px;
     color: #d6d6d6;
-    text-align: center;
 }
 
 h2 {

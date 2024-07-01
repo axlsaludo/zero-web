@@ -1,0 +1,38 @@
+<?php
+include '../db/dbconn.php';
+include '../db/sessionCheck.php';
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<?php include '../components/headpages.html'; ?>
+<link rel="stylesheet" href="../css/landing.css">
+
+<header>
+    <h1 class="dashTxt">Dashboard</h1>
+</header>
+
+<!-- Logout Button -->
+<div class="logout">
+    <form action="../db/logout.php" method="post">
+        <button type="submit">Logout</button>
+    </form>
+</div>
+
+<body>
+    <main>
+        <div class="card-container">
+            <div class="reg-data-table">
+                <h3>Registered Users</h3>
+                <?php include '../db/dashboard/registeredUsers.php'; ?>
+            </div>
+
+            <div class="active-user-data">
+                <h3>Active Users</h3>
+                <?php include '../db/dashboard/activeUsers.php'; ?>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
