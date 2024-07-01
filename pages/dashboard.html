@@ -14,7 +14,7 @@ include '../db/sessionCheck.php';
 
 <!-- Logout Button -->
 <div class="logout">
-    <form action="../db/logout.php" method="post">
+    <form action="../API/logout.php" method="post">
         <button type="submit">Logout</button>
     </form>
 </div>
@@ -35,7 +35,7 @@ include '../db/sessionCheck.php';
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Fetch and render Registered Users
-            fetch('../db/dashboard/registeredUsers.php')
+            fetch('../API/dashboard/registeredUsers.php')
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('reg-data-table').innerHTML += data;
@@ -43,7 +43,7 @@ include '../db/sessionCheck.php';
                 .catch(error => console.error('Error fetching registered users:', error));
 
             // Fetch and render Active Users
-            fetch('../db/dashboard/activeUsers.php')
+            fetch('../API/dashboard/activeUsers.php')
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('active-user-data').innerHTML += data;

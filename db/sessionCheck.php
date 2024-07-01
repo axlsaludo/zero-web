@@ -1,10 +1,10 @@
 <?php
 session_start(); // Start the session
 
-// Check if the user is logged in
+// Check if the user is not logged in
 if (!isset($_SESSION['user_id'])) {
-    // If the user is not logged in, redirect to the login page
-    header("Location: ../components/404.html");
-    exit;
+    // Redirect to the login page or another appropriate page
+    header("Location: ../components/login.html"); // Adjust the path as needed
+    exit; // Ensure no further code execution after redirection
 }
 ?>
