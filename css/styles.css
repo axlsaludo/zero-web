@@ -1,19 +1,17 @@
-
-/* init style */
-
+/* General styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     font-family: monospace;
-}
-
-body, h1, h2, h3, p, a {
+  }
+  
+  body, h1, h2, h3, p, a, label, li {
     color: inherit;
-}
-
-body {
+  }
+  
+  body {
     background: radial-gradient(circle at center, #2d2d2d, #3c3c3c, #4c4c4c, #2d2d2d, #636363);
     background-color: #2d2d2d;
     background-size: 200% 200%;
@@ -28,219 +26,207 @@ body {
     animation: gradient 20s ease-in-out infinite;
     position: relative;
     overflow: hidden;
-}
-
-@keyframes gradient {
+  }
+  
+  @keyframes gradient {
     0% {
-        background-position: 20% 20%;
+      background-position: 20% 20%;
     }
     50% {
-        background-position: 100% 100%;
+      background-position: 100% 100%;
     }
     100% {
-        background-position: 20% 20%;
+      background-position: 20% 20%;
     }
-}
-
-header {
+  }
+  
+  header {
     text-align: center;
     color: white;
-    margin-top: 20px;
-    width: 20%;
+    margin-top: 2vh; /* Responsive margin */
+    width: 20%; /* Fixed width */
     border-bottom: 1px solid #929292;
-}
-
-main {
-    padding: 20px;
+  }
+  
+  main {
+    padding: 2vw; /* Responsive padding */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100%;
-}
-
-section {
-    margin-bottom: 20px;
-}
-
-h1 {
+  }
+  
+  section {
+    margin-bottom: 2vw; /* Responsive margin */
+  }
+  
+  h1 {
     font-size: 2.5em;
-    margin-bottom: 10px;
+    margin-bottom: 1.5vw; /* Responsive margin */
     color: #d6d6d6;
-}
-
-h2 {
+  }
+  
+  h2 {
     font-size: 2em;
-    margin-bottom: 10px;
+    margin-bottom: 1.5vw; /* Responsive margin */
     color: #d6d6d6;
     text-align: center;
-}
-
-h3 {
+  }
+  
+  h3 {
     font-size: 1.5em;
-    margin-bottom: 10px;
     color: #d6d6d6;
-}
-
-p {
+  }
+  
+  p {
     font-size: 1.1em;
-    margin-bottom: 10px;
+    margin-bottom: 1.5vw; /* Responsive margin */
     color: #d6d6d6;
     text-align: center;
-}
-
-a{
+  }
+  
+  a {
     color: #d6d6d6;
-}
-
-label{
+  }
+  
+  label {
     color: white;
-}
-
-/* Start of Footer */
-
-.foot{
-    margin-bottom: 10px;
-    bottom: 20px;
+  }
+  
+  /* Footer */
+  .foot {
+    margin-bottom: 1vh; /* Responsive margin */
+    bottom: 2vh; /* Responsive position */
     justify-content: center;
     display: flex;
     flex-direction: row;
-}
-
-.dot{
+  }
+  
+  .dot {
     align-items: center;
     justify-content: center;
     display: flex;
     flex-direction: column;
-    margin-bottom: 5px;
-}
-
-.dot:hover{
+    margin-bottom: 0.5vh; /* Responsive margin */
+  }
+  
+  .dot:hover {
+    transform: scale(1.1); /* Scale effect on hover */
     transition-duration: 300ms;
-    scale: 110%;
-}
-
-.ft-link{
-    padding: 5px;
-}
-.ft-link:hover{
+  }
+  
+  .ft-link {
+    padding: 0.5vh 1vw; /* Responsive padding */
+  }
+  
+  .ft-link:hover {
     background-color: #4c4c4c;
     border-radius: 5px;
-
     transition-duration: 300ms;
-}
-
-/*  End of Footer */
-
-
-/*  Start of Landing */ 
-
-.enter{
-    margin-top: 20px;
-}
-
-.button-enter{
+  }
+  
+  /* Landing */
+  .enter {
+    margin-top: 2vh; /* Responsive margin */
+  }
+  
+  .button-enter {
     color: #d6d6d6;
-    height: 20px;
-    width: 100px;
-
+    height: 2vh; /* Responsive height */
+    width: 10vw; /* Responsive width */
     align-items: center;
     justify-content: center;
     display: flex;
     flex-direction: column;
-
-    padding: 20px;
+    padding: 2vh 4vw; /* Responsive padding */
     background: rgba(68, 68, 68, 0.55);
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(68, 68, 68, 0.13);
-}
-
-.button-enter:hover{
+  }
+  
+  .button-enter:hover {
+    transform: scale(1.1); /* Scale effect on hover */
     transition-duration: 300ms;
-    scale: 110%;
-    color:#B2533E;
-}
-
-/*  End of Landing */
-
-
-/*  Start of Login */
-
-.squircle{
+    color: #b2533e; /* Hover color change */
+  }
+  
+  /* Login */
+  .squircle {
     background: rgba(68, 68, 68, 0.25);
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(68, 68, 68, 0.13);
-    padding: 30px;
-}
-
-.input-field {
+    padding: 2vw; /* Responsive padding */
+    width: 50vw; /* Responsive width */
+  }
+  
+  .input-field {
     display: flex;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    width: 300px;
-}
-
-.input-field input {
+    margin: 1.5vw 0; /* Responsive margin */
+    width: 60%; /* Responsive width */
+  }
+  
+  .input-field input {
     flex: 1;
-    padding: 10px;
+    padding: 1vw; /* Responsive padding */
     border: 1px solid #3c3c3c;
     border-radius: 4px;
-    font-size: 14px;
+    font-size: 1em; /* Responsive font size */
     color: white;
-    background-color:transparent ;
-}
-.link {
-    font-size: 12px;
-    color: d6d6d6;
+    background-color: transparent;
+  }
+  
+  .link {
+    font-size: 0.8em; /* Responsive font size */
+    color: #d6d6d6;
     text-decoration: none;
     display: block;
-    margin-top: 10px;
-}
-.action {
-    margin-top: 20px;
+    margin-top: 1vh; /* Responsive margin */
+  }
+  
+  .action {
+    margin-top: 2vh; /* Responsive margin */
     align-items: center;
     justify-content: center;
     display: flex;
-}
-.action button {
-    padding: 10px 20px;
-    margin-right: 10px;
+  }
+  
+  .action button {
+    padding: 1vh 2vw; /* Responsive padding */
+    margin-right: 1vw; /* Responsive margin */
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 14px;
-    margin-bottom: 10px;
-}
-.action button:first-child {
-    
-}
-.action button:last-child {
+    font-size: 1em; /* Responsive font size */
+    margin-bottom: 1vh; /* Responsive margin */
+  }
+  
+  .action button:first-child {
+    /* Adjust as needed */
+  }
+  
+  .action button:last-child {
     background-color: #3c3c3c;
     color: #d6d6d6;
-}
-
-.reg{
-    color:#B2533E;
-}
-
-
-
-/* Donut */
-
-.container {
-    padding: 10px;
-    width: 1100px; /* Set the width of the container */
-    height: 800px; /* Set the height of the container */
-    margin: 20px;
-}
-
-
-
-/* Dashboard */
-
-li{
+  }
+  
+  .reg {
+    color: #b2533e;
+  }
+  
+  /* Donut */
+  .container {
+    padding: 1vw; /* Responsive padding */
+    width: 80%; /* Responsive width */
+    height: 60vh; /* Responsive height */
+    margin: 2vh;
+  }
+  
+  /* Dashboard */
+  li {
     color: #d6d6d6;
     list-style-type: none;
-}
+  }
+  
