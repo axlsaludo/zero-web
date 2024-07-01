@@ -1,5 +1,5 @@
 <?php
-include '../db/dbconn.php';
+include '../dbconn.php';
 
 // Fetch registered users
 $stmt = $conn->prepare("SELECT id, first_name, last_name FROM users");

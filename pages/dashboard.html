@@ -1,7 +1,6 @@
 <?php
-include '../db/dbconn.php';
 include '../db/sessionCheck.php';
-?>
+?>  
 
 <!DOCTYPE html>
 <html lang="en">
@@ -23,16 +22,34 @@ include '../db/sessionCheck.php';
 <body>
     <main>
         <div class="card-container">
-            <div class="reg-data-table">
+            <div class="reg-data-table" id="reg-data-table">
                 <h3>Registered Users</h3>
-                <?php include '../db/dashboard/registeredUsers.php'; ?>
             </div>
 
-            <div class="active-user-data">
+            <div class="active-user-data" id="active-user-data">
                 <h3>Active Users</h3>
-                <?php include '../db/dashboard/activeUsers.php'; ?>
             </div>
         </div>
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fetch and render Registered Users
+            fetch('../db/dashboard/registeredUsers.php')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('reg-data-table').innerHTML += data;
+                })
+                .catch(error => console.error('Error fetching registered users:', error));
+
+            // Fetch and render Active Users
+            fetch('../db/dashboard/activeUsers.php')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('active-user-data').innerHTML += data;
+                })
+                .catch(error => console.error('Error fetching active users:', error));
+        });
+    </script>
 </body>
 </html>

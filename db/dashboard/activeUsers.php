@@ -1,5 +1,5 @@
 <?php
-include '../db/dbconn.php';
+include '../dbconn.php';
 
 // Fetch active users
 $stmt = $conn->prepare("SELECT first_name, last_name FROM users WHERE is_active = 1");
