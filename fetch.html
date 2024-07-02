@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="../css/landing.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Fetch data from the API
+            fetch('https://data.wa.gov/resource/3d5d-sdqb.json')
+                .then(response => response.json())
+                .then(data => {
+                    // Populate the table with data
+                    populateTable(data);
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        });
+
+        function populateTable(data) {
+            const tableContainer = document.getElementById('reg-data-table');
+            const table = document.createElement('table');
+            table.classList.add('data-table');
+
+            // Create the header row
+            const headerRow = document.createElement('tr');
+            const headers = ['Date', 'County', 'State', 'Non Electric Vehicles', 'Total Vehicles', 'Percent of No of Vehicles'];
+            headers.forEach(headerText => {
+                const header = document.createElement('th');
+                header.textContent = headerText;
+                headerRow.appendChild(header);
+            });
+            table.appendChild(headerRow);
+
+            // Create rows for each data entry
+            data.forEach(item => {
+                const row = document.createElement('tr');
+                const date = new Date(item.date).toLocaleDateString();
+                const county = item.county;
+                const state = item.state;
+                const nonElectricVehicles = item.non_electric_vehicles;
+                const totalVehicles = item.total_vehicles;
+                const percentNonElectric = ((nonElectricVehicles / totalVehicles) * 100).toFixed(2) + '%';
+
+                const rowData = [date, county, state, nonElectricVehicles, totalVehicles, percentNonElectric];
+                rowData.forEach(text => {
+                    const cell = document.createElement('td');
+                    cell.textContent = text;
+                    row.appendChild(cell);
+                });
+
+                table.appendChild(row);
+            });
+
+            tableContainer.appendChild(table);
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1 class="dashTxt">Test</h1>
+    </header>
+    <div class="logout">
+        <form action="../API/logout.php" method="post">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+    <main>
+        <div class="card-container">
+            <div class="reg-data-table" id="reg-data-table">
+                <input type="text" placeholder="Search..">
+            </div>
+        </div>
+    </main>
+</body>
+</html>

@@ -17,9 +17,24 @@ function displayData(page) {
     const itemsPerPage = 15; // Changed to 20 items per page
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const paginatedData = window.tableData.slice(startIndex, endIndex);
+
+    // Get selected year from the dropdown
+    const selectedYear = document.getElementById('year-filter').value;
+
+    // Filter data based on the selected year
+    let filteredData = window.tableData;
+    if (selectedYear !== 'all') {
+        filteredData = window.tableData.filter(item => {
+            const year = new Date(item.date).getFullYear().toString();
+            return year === selectedYear;
+        });
+    }
+
+    // Apply pagination to filtered data
+    const paginatedData = filteredData.slice(startIndex, endIndex);
     populateTable(paginatedData);
 }
+
 
 function populateTable(data) {
     const tableContainer = document.getElementById('reg-data-table');
@@ -64,6 +79,8 @@ function populateTable(data) {
     tableContainer.appendChild(table);
 }
 
+// Updated sortTable function to sort by year
+
 function sortTable(columnIndex) {
     const isNumericColumn = columnIndex === 3 || columnIndex === 4;
     const columnKey = ['date', 'county', 'state', 'non_electric_vehicles', 'total_vehicles', 'percent_non_electric'][columnIndex];
@@ -73,9 +90,13 @@ function sortTable(columnIndex) {
 
     window.tableData.sort((a, b) => {
         let valueA, valueB;
+
         if (columnIndex === 0) { // Date column
-            valueA = new Date(a.date);
-            valueB = new Date(b.date);
+            // Extract year from date strings
+            const yearA = parseInt(a.date.substring(0, 4));
+            const yearB = parseInt(b.date.substring(0, 4));
+            valueA = yearA;
+            valueB = yearB;
         } else if (columnIndex === 1) { // County column
             valueA = a.county;
             valueB = b.county;
@@ -96,9 +117,11 @@ function sortTable(columnIndex) {
         if (isNumericColumn) {
             return window.sortOrder[columnKey] ? valueA - valueB : valueB - valueA;
         } else {
-            if (valueA < valueB) return window.sortOrder[columnKey] ? -1 : 1;
-            if (valueA > valueB) return window.sortOrder[columnKey] ? 1 : -1;
-            return 0;
+            if (columnIndex === 0) { // Sort by year
+                return window.sortOrder[columnKey] ? valueA - valueB : valueB - valueA;
+            } else {
+                return window.sortOrder[columnKey] ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
+            }
         }
     });
 
@@ -106,7 +129,7 @@ function sortTable(columnIndex) {
 }
 
 function setupPagination(data) {
-    const itemsPerPage = 20; // Changed items per page to 20
+    const itemsPerPage = 15;
     const totalPages = Math.ceil(data.length / itemsPerPage);
     const maxButtons = 8; // Maximum number of pagination buttons to show
 
@@ -117,7 +140,7 @@ function setupPagination(data) {
     let startPage = 1;
     let endPage = totalPages;
     if (totalPages > maxButtons) {
-        const currentPage = 1; // Assuming you have a way to track current page
+        const currentPage = 1; // Replace with your logic to get current page
         const halfMaxButtons = Math.floor(maxButtons / 2);
         startPage = Math.max(currentPage - halfMaxButtons, 1);
         endPage = startPage + maxButtons - 1;
@@ -127,6 +150,15 @@ function setupPagination(data) {
         }
     }
 
+    // Add "First" button
+    const firstButton = document.createElement('button');
+    firstButton.textContent = 'First';
+    firstButton.addEventListener('click', function () {
+        displayData(1);
+    });
+    paginationContainer.appendChild(firstButton);
+
+    // Add buttons for pages
     for (let i = startPage; i <= endPage; i++) {
         const button = document.createElement('button');
         button.textContent = i;
@@ -136,5 +168,22 @@ function setupPagination(data) {
         paginationContainer.appendChild(button);
     }
 
+    // Add "Last" button
+    const lastButton = document.createElement('button');
+    lastButton.textContent = 'Last';
+    lastButton.addEventListener('click', function () {
+        displayData(totalPages);
+    });
+    paginationContainer.appendChild(lastButton);
+
     document.body.appendChild(paginationContainer);
+
+    // Ensure current page is moved to the front if needed
+    const currentPage = 1; // Replace with your logic to get current page
+    if (currentPage > 1 && currentPage <= totalPages) {
+        const currentButton = paginationContainer.querySelector(`button:nth-child(${currentPage + 1 - startPage})`);
+        if (currentButton) {
+            paginationContainer.insertBefore(currentButton, paginationContainer.firstChild.nextSibling);
+        }
+    }
 }
