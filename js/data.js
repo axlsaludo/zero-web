@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Fetch error:', error);
         });
 
+    // Event listener for year filter change
     yearFilter.addEventListener('change', () => {
         currentPage = 1; // Reset currentPage to 1 when filter changes
 
@@ -44,6 +45,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Wait for storeDataButton to be available in the DOM
+    const checkStoreDataButton = () => {
+        const storeDataButton = document.getElementById('storeDataBtn');
+        if (storeDataButton) {
+            storeDataButton.addEventListener('click', () => {
+                sendDataToServer(allData); // Send all fetched data to storeData.php
+            });
+        } else {
+            setTimeout(checkStoreDataButton, 100); // Check again after 100ms if storeDataButton is not found
+        }
+    };
+
+    checkStoreDataButton(); // Initial call to start checking
+
+    // Function to render table and pagination
     function renderTableAndPagination(data) {
         // Clear previous content
         tableContainer.innerHTML = '';
@@ -159,4 +175,33 @@ document.addEventListener('DOMContentLoaded', () => {
     function formatPercentage(percent) {
         return parseFloat(percent).toFixed(2) + '%';
     }
+
+    // Function to send data to storeData.php
+    function sendDataToServer(data) {
+        // Convert data to JSON string
+        const jsonData = JSON.stringify(data);
+
+        fetch('../API/data/storeData.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: jsonData, // Send the JSON string as the request body
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(responseData => {
+            console.log('Data stored successfully:', responseData);
+            alert('Data stored successfully.'); // Example alert message
+        })
+        .catch(error => {
+            console.error('Error storing data:', error);
+            alert('Error storing data. Please try again.'); // Example alert message
+        });
+    }
+
 });
