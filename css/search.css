@@ -1,0 +1,80 @@
+body {
+    font-family: monospace;
+    overflow: auto;
+}
+
+.card-container {
+    background: rgba(68, 68, 68, 0.55);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(68, 68, 68, 0.13);
+    margin-bottom: 20px;
+}
+
+.filter-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Align items to the sides */
+    margin-bottom: 20px;
+}
+
+#year-filter {
+    padding: 5px;
+    border: 1px solid #3c3c3c;
+    border-radius: 4px;
+    background-color: #4c4c4c;
+    color: white;
+}
+
+.reg-data-table input[type="text"] {
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    border: 1px solid #3c3c3c;
+    border-radius: 4px;
+    background-color: #4c4c4c;
+    color: white;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.data-table th, .data-table td {
+    border: 1px solid #3c3c3c;
+    padding: 10px;
+    text-align: left;
+}
+
+.data-table th {
+    background-color: #4c4c4c;
+    color: white;
+    cursor: pointer;
+}
+
+.data-table tr:hover {
+    background-color: #5c5c5c;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid #3c3c3c;
+    background-color: #4c4c4c;
+    color: white;
+    cursor: pointer;
+}
+
+.pagination button:hover {
+    background-color: #5c5c5c;
+}
