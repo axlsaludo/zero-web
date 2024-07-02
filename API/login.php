@@ -1,30 +1,28 @@
 <?php
 session_start();
 include '../db/dbconn.php'; // Include the Database class definition
+include '../models/User.php'; // Include the User class definition
 
 $database = new Database();
 $db = $database->getConnection(); // Obtain the PDO connection object
+
+$userModel = new User($db); // Instantiate User class
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
     try {
-        // Prepare SQL statement to fetch user from database
-        $stmt = $db->prepare("SELECT * FROM users WHERE email = :email");
-        $stmt->bindParam(':email', $email);
-        $stmt->execute();
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        // Fetch user from database using User class method
+        $user = $userModel->getUserByEmail($email);
 
         if ($user) {
             // Verify password
             if (password_verify($password, $user['password'])) {
                 $_SESSION['user_id'] = $user['id'];
 
-                // Update user status to active (optional)
-                $stmt = $db->prepare("UPDATE users SET is_active = 1 WHERE id = :id");
-                $stmt->bindParam(':id', $user['id']);
-                $stmt->execute();
+                // Update user status to active
+                $userModel->updateUserStatus($user['id'], 1);
 
                 // Check if user is admin
                 if ($user['is_admin']) {
@@ -35,11 +33,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
                 exit;
             } else {
-                header("Location: ../pages/login.html");
+                header("Location: ../pages/login.html"); // Invalid password
                 exit;
             }
         } else {
-            header("Location: ../pages/login.html");
+            header("Location: ../pages/login.html"); // User not found
             exit;
         }
     } catch (Exception $e) {
