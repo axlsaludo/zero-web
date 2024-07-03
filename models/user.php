@@ -22,5 +22,24 @@ class User {
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
     }
+
+    // Function to insert data into a specified table
+    public function insertData($table, $columns, $values) {
+        $columnsStr = implode(', ', $columns);
+        $placeholders = ':' . implode(', :', $columns);
+
+        $query = "INSERT INTO $table ($columnsStr) VALUES ($placeholders)";
+        $stmt = $this->conn->prepare($query);
+
+        foreach ($columns as $index => $column) {
+            $stmt->bindParam(':' . $column, $values[$index]);
+        }
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 ?>

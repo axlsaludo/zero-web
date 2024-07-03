@@ -1,5 +1,6 @@
 <?php
 require_once('../../db/dbconn.php');
+require_once('../../models/user.php');
 
 function fetchDataFromAPI() {
     $url = "https://data.wa.gov/resource/3d5d-sdqb.json?\$limit=5000";
@@ -23,41 +24,45 @@ function fetchDataFromAPI() {
     }
 
     return $jsonData;
-}
+}   
 
 try {
-    $data = fetchDataFromAPI();
-
     // Connect to database
     $db = new Database();
     $conn = $db->getConnection();
 
-    // Prepare SQL statement
-    $stmt = $conn->prepare("INSERT INTO vehicles (date, county, state, vehicle_primary_use, electric_vehicle_ev_total, non_electric_vehicles, total_vehicles, percent_electric_vehicles) 
-                            VALUES (:date, :county, :state, :vehicle_primary_use, :electric_vehicle_ev_total, :non_electric_vehicles, :total_vehicles, :percent_electric_vehicles)");
+    // Instantiate User class
+    $user = new User($conn);
 
-    // Insert each entry into the database
+    // Fetch data from API
+    $data = fetchDataFromAPI();
+
+    // Define columns and prepare data for insertion
+    $table = 'vehicles'; // Replace with your target table name
+    $columns = ['date', 'county', 'state', 'vehicle_primary_use', 'electric_vehicle_ev_total', 'non_electric_vehicles', 'total_vehicles', 'percent_electric_vehicles'];
+    $successCount = 0;
+
     foreach ($data as $entry) {
-        // Check and filter required fields
-        if (isset($entry['date']) && isset($entry['county']) && isset($entry['state']) &&
-            isset($entry['vehicle_primary_use']) && isset($entry['electric_vehicle_ev_total']) &&
-            isset($entry['non_electric_vehicles']) && isset($entry['total_vehicles']) &&
-            isset($entry['percent_electric_vehicles'])) {
-            
-            $stmt->bindParam(':date', $entry['date']);
-            $stmt->bindParam(':county', $entry['county']);
-            $stmt->bindParam(':state', $entry['state']);
-            $stmt->bindParam(':vehicle_primary_use', $entry['vehicle_primary_use']);
-            $stmt->bindParam(':electric_vehicle_ev_total', $entry['electric_vehicle_ev_total']);
-            $stmt->bindParam(':non_electric_vehicles', $entry['non_electric_vehicles']);
-            $stmt->bindParam(':total_vehicles', $entry['total_vehicles']);
-            $stmt->bindParam(':percent_electric_vehicles', $entry['percent_electric_vehicles']);
-            $stmt->execute();
+        // Prepare values for insertion
+        $values = [
+            $entry['date'],
+            $entry['county'],
+            $entry['state'],
+            $entry['vehicle_primary_use'],
+            $entry['electric_vehicle_ev_total'],
+            $entry['non_electric_vehicles'],
+            $entry['total_vehicles'],
+            $entry['percent_electric_vehicles']
+        ];
+
+        // Insert data into the specified table
+        if ($user->insertData($table, $columns, $values)) {
+            $successCount++;
         }
     }
 
     // Return success response
-    echo json_encode(['success' => true, 'message' => 'Data stored successfully']);
+    echo json_encode(['success' => true, 'message' => "$successCount records stored successfully"]);
 
 } catch (Exception $e) {
     // Return error response
