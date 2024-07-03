@@ -1,15 +1,9 @@
-TODO #1  
-
-- add a dashboard
-- implement the logout function
-- fix some ui elements 
-
+Required Fields
 
 SQL For the Making of Vechicle Tables
 
 ```SQL
-
-CREATE TABLE IF NOT EXISTS vehicles (
+CREATE TABLE vehicles (
     id INT AUTO_INCREMENT PRIMARY KEY,
     date DATE NOT NULL,
     county VARCHAR(255) NOT NULL,
@@ -18,10 +12,9 @@ CREATE TABLE IF NOT EXISTS vehicles (
     electric_vehicle_ev_total INT NOT NULL,
     non_electric_vehicles INT NOT NULL,
     total_vehicles INT NOT NULL,
-    percent_electric_vehicles DECIMAL(5,2) NOT NULL
+    percent_electric_vehicles DECIMAL(5, 2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-
 
 ```
 

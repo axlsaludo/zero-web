@@ -18,12 +18,17 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            return response.json();
+            return response.text(); // Fetch as text first
         })
         .then(data => {
+            data = data.trim(); // Trim whitespace
             console.log('Data fetched:', data);
-            allData = data; // Store fetched data in allData array
-            renderTableAndPagination(data); // Display table and pagination initially
+            try {
+                allData = JSON.parse(data); // Parse JSON data
+                renderTableAndPagination(allData); // Display table and pagination initially
+            } catch (error) {
+                console.error('JSON parsing error:', error);
+            }
         })
         .catch(error => {
             console.error('Fetch error:', error);

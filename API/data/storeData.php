@@ -2,8 +2,7 @@
 require_once('../../db/dbconn.php');
 
 function fetchDataFromAPI() {
-    $url = "https://data.wa.gov/resource/3d5d-sdqb.json";
-    $url .= "?\$limit=5000"; // Add the limit parameter to fetch 5000 records
+    $url = "https://data.wa.gov/resource/3d5d-sdqb.json?\$limit=5000";
     $data = file_get_contents($url);
 
     // Check if data retrieval was successful
@@ -12,9 +11,9 @@ function fetchDataFromAPI() {
     }
 
     // Validate content type
-    $contentType = mime_content_type($url);
-    if ($contentType !== 'application/json') {
-        throw new Exception("Unexpected content type: $contentType");
+    $headers = get_headers($url, 1);
+    if (strpos($headers['Content-Type'], 'application/json') === false) {
+        throw new Exception("Unexpected content type: " . $headers['Content-Type']);
     }
 
     // Attempt to decode JSON
@@ -39,15 +38,22 @@ try {
 
     // Insert each entry into the database
     foreach ($data as $entry) {
-        $stmt->bindParam(':date', $entry['date']);
-        $stmt->bindParam(':county', $entry['county']);
-        $stmt->bindParam(':state', $entry['state']);
-        $stmt->bindParam(':vehicle_primary_use', $entry['vehicle_primary_use']);
-        $stmt->bindParam(':electric_vehicle_ev_total', $entry['electric_vehicle_ev_total']);
-        $stmt->bindParam(':non_electric_vehicles', $entry['non_electric_vehicles']);
-        $stmt->bindParam(':total_vehicles', $entry['total_vehicles']);
-        $stmt->bindParam(':percent_electric_vehicles', $entry['percent_electric_vehicles']);
-        $stmt->execute();
+        // Check and filter required fields
+        if (isset($entry['date']) && isset($entry['county']) && isset($entry['state']) &&
+            isset($entry['vehicle_primary_use']) && isset($entry['electric_vehicle_ev_total']) &&
+            isset($entry['non_electric_vehicles']) && isset($entry['total_vehicles']) &&
+            isset($entry['percent_electric_vehicles'])) {
+            
+            $stmt->bindParam(':date', $entry['date']);
+            $stmt->bindParam(':county', $entry['county']);
+            $stmt->bindParam(':state', $entry['state']);
+            $stmt->bindParam(':vehicle_primary_use', $entry['vehicle_primary_use']);
+            $stmt->bindParam(':electric_vehicle_ev_total', $entry['electric_vehicle_ev_total']);
+            $stmt->bindParam(':non_electric_vehicles', $entry['non_electric_vehicles']);
+            $stmt->bindParam(':total_vehicles', $entry['total_vehicles']);
+            $stmt->bindParam(':percent_electric_vehicles', $entry['percent_electric_vehicles']);
+            $stmt->execute();
+        }
     }
 
     // Return success response
