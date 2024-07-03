@@ -37,25 +37,25 @@ try {
     // Fetch data from API
     $data = fetchDataFromAPI();
 
-    // Define columns and prepare data for insertion
-    $table = 'vehicles'; // Replace with your target table name
+    // Define table name (can be dynamic based on your application logic)
+    $table = 'vehicles'; // Replace with your dynamic table name logic if needed
     $columns = ['date', 'county', 'state', 'vehicle_primary_use', 'electric_vehicle_ev_total', 'non_electric_vehicles', 'total_vehicles', 'percent_electric_vehicles'];
     $successCount = 0;
 
     foreach ($data as $entry) {
         // Prepare values for insertion
         $values = [
-            $entry['date'],
-            $entry['county'],
-            $entry['state'],
-            $entry['vehicle_primary_use'],
-            $entry['electric_vehicle_ev_total'],
-            $entry['non_electric_vehicles'],
-            $entry['total_vehicles'],
-            $entry['percent_electric_vehicles']
+            'date' => $entry['date'],
+            'county' => $entry['county'],
+            'state' => $entry['state'],
+            'vehicle_primary_use' => $entry['vehicle_primary_use'],
+            'electric_vehicle_ev_total' => $entry['electric_vehicle_ev_total'],
+            'non_electric_vehicles' => $entry['non_electric_vehicles'],
+            'total_vehicles' => $entry['total_vehicles'],
+            'percent_electric_vehicles' => $entry['percent_electric_vehicles']
         ];
 
-        // Insert data into the specified table
+        // Insert data into the specified table using User class method
         if ($user->insertData($table, $columns, $values)) {
             $successCount++;
         }
