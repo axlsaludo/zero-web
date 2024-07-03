@@ -6,44 +6,35 @@ function fetchDataFromAPI() {
     $url = "https://data.wa.gov/resource/3d5d-sdqb.json?\$limit=5000";
     $data = file_get_contents($url);
 
-    // Check if data retrieval was successful
     if ($data === false) {
         throw new Exception("Failed to fetch data from API: " . error_get_last()['message']);
     }
 
-    // Validate content type
     $headers = get_headers($url, 1);
     if (strpos($headers['Content-Type'], 'application/json') === false) {
         throw new Exception("Unexpected content type: " . $headers['Content-Type']);
     }
 
-    // Attempt to decode JSON
     $jsonData = json_decode($data, true);
     if ($jsonData === null && json_last_error() !== JSON_ERROR_NONE) {
         throw new Exception("Failed to decode JSON data: " . json_last_error_msg());
     }
-
     return $jsonData;
 }   
 
 try {
-    // Connect to database
+
     $db = new Database();
     $conn = $db->getConnection();
 
-    // Instantiate User class
     $user = new User($conn);
-
-    // Fetch data from API
     $data = fetchDataFromAPI();
 
-    // Define table name (can be dynamic based on your application logic)
-    $table = 'vehicles'; // Replace with your dynamic table name logic if needed
+    $table = 'vehicles';
     $columns = ['date', 'county', 'state', 'vehicle_primary_use', 'electric_vehicle_ev_total', 'non_electric_vehicles', 'total_vehicles', 'percent_electric_vehicles'];
     $successCount = 0;
 
     foreach ($data as $entry) {
-        // Prepare values for insertion
         $values = [
             'date' => $entry['date'],
             'county' => $entry['county'],
@@ -55,17 +46,15 @@ try {
             'percent_electric_vehicles' => $entry['percent_electric_vehicles']
         ];
 
-        // Insert data into the specified table using User class method
         if ($user->insertData($table, $columns, $values)) {
             $successCount++;
         }
     }
 
-    // Return success response
+
     echo json_encode(['success' => true, 'message' => "$successCount records stored successfully"]);
 
 } catch (Exception $e) {
-    // Return error response
     $errorMessage = $e->getMessage();
     error_log("Error storing data: $errorMessage");
     echo json_encode(['success' => false, 'message' => $errorMessage]);
