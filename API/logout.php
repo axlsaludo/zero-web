@@ -1,19 +1,22 @@
 <?php
 session_start();
 
-// Include the dbconn.php file for database connection
-include '../db/dbconn.php';
+// Include the User class definition and Database connection
+require_once('../db/dbconn.php');
+require_once('../models/User.php');
 
 try {
+    // Establish database connection
     $database = new Database();
-    $conn = $database->getConnection(); // Obtain the PDO connection object
+    $conn = $database->getConnection();
+
+    // Initialize User model
+    $userModel = new User($conn);
 
     // Check if the user is logged in
     if (isset($_SESSION['user_id'])) {
-        // Prepare and execute the SQL statement to update user status to inactive
-        $stmt = $conn->prepare("UPDATE users SET is_active = 0 WHERE id = :id");
-        $stmt->bindParam(':id', $_SESSION['user_id']);
-        $stmt->execute();
+        // Update user status to inactive
+        $userModel->updateUserStatus($_SESSION['user_id'], 0);
 
         // Destroy the session
         session_destroy();
@@ -23,7 +26,7 @@ try {
     header("Location: ../pages/login.html");
     exit;
 
-} catch (PDOException $e) {
+} catch (Exception $e) {
     // Handle database connection or query errors
     echo "Error: " . $e->getMessage();
     exit;

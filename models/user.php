@@ -6,7 +6,6 @@ class User {
         $this->conn = $db;
     }
 
-    // Function to insert data into a specified table
     public function insertData($table, $columns, $values) {
         $columnsStr = implode(', ', $columns);
         $placeholders = ':' . implode(', :', $columns);
