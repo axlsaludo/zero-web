@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<?php include '../components/headpages.html';?>
+<link rel="stylesheet" href="../css/landing.css">
+<link rel="stylesheet" href="../css/generic.css">
+<body>
+    <header>
+        <h1>Snakes Game</h1>
+    </header>
+
+    <div class="logout">
+        <form action="../API/logout.php" method="post">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+
+    <main>
+        <div class="card-container">
+            <div class="container-selector">
+                <a class="logout" href="dashboard.html">Snakes</a>
+            </div>
+            <div class="container-selector">
+                <a class="logout" href="data.html">Data</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

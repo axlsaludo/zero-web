@@ -691,9 +691,28 @@ Snake Entity
         }, 300);
       }
 
-      // check death by eating self
-      if( this.deathFlag ) {
-        g.setState( 'play' );
+      if (this.deathFlag) {
+        // Get the score from the .score element
+        this.scoreElem = document.querySelector('.score');
+        let score = parseInt(this.scoreElem.textContent);
+
+        // Send score to the server
+        $.ajax({
+            url: '/API/saveScore.php', // Adjust the path to your PHP script
+            type: 'POST',
+            data: {
+                score: score
+            },
+            success: function(response) {
+                console.log("Score saved successfully:", response);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error("Error saving score:", textStatus);
+            }
+        });
+
+        // Continue with the game logic
+        g.setState('play');
       }
     }
 
