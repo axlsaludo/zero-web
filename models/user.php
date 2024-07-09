@@ -59,5 +59,7 @@ class User {
     }
 
     // Additional CRUD operations can be added as needed
+
 }
 ?>
+
