@@ -1,5 +1,5 @@
 
-.container {
+.floor-container {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -23,6 +23,7 @@
     position: relative;
     border-radius: 5px;
     font-size: 20px;
+    color: white;
 }
 
 .room.active {
