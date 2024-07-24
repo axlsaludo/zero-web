@@ -3,28 +3,39 @@
 <html lang="en">
 
 <?php include '../components/headpages.html';?>
-<link rel="stylesheet" href="../css/landing.css">
-<link rel="stylesheet" href="../css/generic.css">
+<link rel="stylesheet" href="../css/floorplan.css">
 <body>
-    <header>
-        <h1>Snakes Game</h1>
-    </header>
-
-    <div class="logout">
-        <form action="../API/logout.php" method="post">
-            <button type="submit">Logout</button>
-        </form>
+    <div class="container">
+        <button type="button" class="room great-room" data-room="1">Great Room</button>
+        <button type="button" class="room kitchen" data-room="2">Kitchen</button>
+        <button type="button" class="room bed-1" data-room="3">Bed 1</button>
+        <button type="button" class="room bath-2" data-room="4">Bath</button>
+        <button type="button" class="room foyer" data-room="5">Foyer</button>
+        <button type="button" class="room porch" data-room="6">Porch</button>
+        <div class="room garage">Garage</div>
+        <button type="button" class="garage-door" data-room="7">Garage Door</button>
+        <button type="button" class="room bed-2" data-room="8">Bed 2</button>
+        <button type="button" class="room bath-1" data-room="9">Bath</button>
     </div>
-
-    <main>
-        <div class="card-container">
-            <div class="container-selector">
-                <a class="logout" href="dashboard.html">Snakes</a>
-            </div>
-            <div class="container-selector">
-                <a class="logout" href="data.html">Data</a>
-            </div>
-        </div>
-    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const rooms = document.querySelectorAll('.room, .garage-door');
+            
+            rooms.forEach(room => {
+                room.addEventListener('click', () => {
+                    const roomNumber = room.getAttribute('data-room');
+                    room.classList.toggle('active');
+                    const state = room.classList.contains('active') ? 'on' : 'off';
+                    fetch('control_lights.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: 'room=' + roomNumber + '&state=' + state
+                    });
+                });
+            });
+        });
+    </script>
 </body>
 </html>
