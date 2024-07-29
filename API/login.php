@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $_SESSION['is_admin'] = true;
                     header("Location: ../pages/dashboard.html");
                 } else {
-                    header("Location: ../pages/data.html");
+                    header("Location: ../pages/alpha.html");
                 }
                 exit;
             } else {

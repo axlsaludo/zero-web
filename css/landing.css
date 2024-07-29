@@ -60,3 +60,11 @@
     background-color: #4c4c4c; /* Darker background on hover */
   }
   
+
+  .user-entry {
+    margin-bottom: 10px;
+}
+
+.user-entry button {
+    margin-left: 10px;
+}

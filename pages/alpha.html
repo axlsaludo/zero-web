@@ -1,3 +1,5 @@
+<?php include '../includes/accessControl.php'; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +17,9 @@
                 <div class="card welcome">
                     <h1>Welcome, User!</h1>
                     <p id="message">Today is <br id="date">Date</br> Have a great day!</p> <!-- Added Dynamic Message -->
-                    <button class="logout" id="logoutButton">Logout</button> <!-- Added Logout Button -->
+                    <form action="../API/logout.php" method="post">
+                        <button type="submit">Logout</button>
+                    </form>
                 </div>
                               
                 <div class="card light-status">
