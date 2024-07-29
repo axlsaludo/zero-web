@@ -35,16 +35,24 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add event listeners for buttons and toggles
     document.getElementById('toggleAllLEDs').addEventListener('click', function() {
         // Send request to toggle all LEDs
-        fetch('../API/toggleAllLeds.php', { method: 'POST' })
-            .then(response => response.text())
+        fetch('http://localhost:8000', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'toggleLED', ledIndex: 'all', state: '1' })
+        })
+            .then(response => response.json())
             .then(result => console.log(result))
             .catch(error => console.error('Error toggling all LEDs:', error));
     });
 
     document.getElementById('toggleAllFans').addEventListener('click', function() {
         // Send request to toggle all fans
-        fetch('toggle_all_fans.php', { method: 'POST' })
-            .then(response => response.text())
+        fetch('http://localhost:8000', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'toggleFan', fanIndex: 'all', state: '1' })
+        })
+            .then(response => response.json())
             .then(result => console.log(result))
             .catch(error => console.error('Error toggling all fans:', error));
     });
@@ -52,13 +60,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Event listeners for individual LEDs
     document.querySelectorAll('.led-card input[type="checkbox"]').forEach((checkbox, index) => {
         checkbox.addEventListener('change', function() {
-            const state = this.checked ? 1 : 0;
-            fetch('update_led.php', {
+            const state = this.checked ? '1' : '0';
+            fetch('http://localhost:8000', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `ledIndex=${index}&state=${state}`
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'toggleLED', ledIndex: index, state: state })
             })
-                .then(response => response.text())
+                .then(response => response.json())
                 .then(result => console.log(result))
                 .catch(error => console.error('Error updating LED state:', error));
         });
@@ -67,13 +75,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Event listeners for individual fans
     document.querySelectorAll('.fan-card input[type="checkbox"]').forEach((checkbox, index) => {
         checkbox.addEventListener('change', function() {
-            const state = this.checked ? 1 : 0;
-            fetch('update_fan.php', {
+            const state = this.checked ? '1' : '0';
+            fetch('http://localhost:8000', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `fanIndex=${index}&state=${state}`
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'toggleFan', fanIndex: index, state: state })
             })
-                .then(response => response.text())
+                .then(response => response.json())
                 .then(result => console.log(result))
                 .catch(error => console.error('Error updating fan state:', error));
         });
@@ -81,50 +89,95 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Auto mode toggles
     document.getElementById('toggleAutoLed').addEventListener('change', function() {
-        const state = this.checked ? 1 : 0;
-        fetch('update_led_auto_mode.php', {
+        const state = this.checked ? '1' : '0';
+        fetch('http://localhost:8000', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `state=${state}`
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'updateAutoMode', mode: 'led', state: state })
         })
-            .then(response => response.text())
+            .then(response => response.json())
             .then(result => console.log(result))
             .catch(error => console.error('Error updating LED auto mode:', error));
     });
 
     document.getElementById('autoModeToggle').addEventListener('change', function() {
-        const state = this.checked ? 1 : 0;
-        fetch('update_fan_auto_mode.php', {
+        const state = this.checked ? '1' : '0';
+        fetch('http://localhost:8000', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `state=${state}`
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'updateAutoMode', mode: 'fan', state: state })
         })
-            .then(response => response.text())
+            .then(response => response.json())
             .then(result => console.log(result))
             .catch(error => console.error('Error updating fan auto mode:', error));
     });
 
     document.getElementById('overrideToggle').addEventListener('change', function() {
-        const state = this.checked ? 1 : 0;
-        fetch('update_override_mode.php', {
+        const state = this.checked ? '1' : '0';
+        fetch('http://localhost:8000', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `state=${state}`
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'updateOverrideMode', state: state })
         })
-            .then(response => response.text())
+            .then(response => response.json())
             .then(result => console.log(result))
             .catch(error => console.error('Error updating override mode:', error));
     });
 
     document.getElementById('autoToggle').addEventListener('change', function() {
-        const state = this.checked ? 1 : 0;
-        fetch('update_garage_auto_mode.php', {
+        const state = this.checked ? '1' : '0';
+        fetch('http://localhost:8000', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `state=${state}`
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'updateAutoMode', mode: 'garage', state: state })
         })
-            .then(response => response.text())
+            .then(response => response.json())
             .then(result => console.log(result))
             .catch(error => console.error('Error updating garage auto mode:', error));
     });
 });
+
+
+// Function to update LED state
+function updateLEDState(ledIndex, state) {
+    fetch('http://localhost:8000/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            action: 'toggleLED',
+            ledIndex: ledIndex,
+            state: state
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('LED update successful:', data);
+    })
+    .catch(error => {
+        console.error('Error updating LED state:', error);
+    });
+}
+
+// Function to fetch sensor data
+function fetchSensorData() {
+    fetch('http://localhost:8000/fetchSensorData.php')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Sensor data:', data);
+    })
+    .catch(error => {
+        console.error('Error fetching sensor data:', error);
+    });
+}

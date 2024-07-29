@@ -17,9 +17,16 @@ class User {
             $stmt->bindParam(":$column", $values[$column]);
         }
 
-        if ($stmt->execute()) {
-            return true;
-        } else {
+        try {
+            if ($stmt->execute()) {
+                echo "Data insertion successful."; // Log for successful data insertion
+                return true;
+            } else {
+                echo "Data insertion failed."; // Log for failed data insertion
+                return false;
+            }
+        } catch (PDOException $e) {
+            echo "Error during insertion: " . $e->getMessage(); // Log for PDO exceptions
             return false;
         }
     }
