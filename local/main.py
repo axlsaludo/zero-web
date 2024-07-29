@@ -10,7 +10,6 @@ import time
 SERIAL_PORT = 'COM3'  # Adjust to your actual serial port
 BAUD_RATE = 9600
 API_URL = 'http://localhost/axl.com/API/sensorData.php'
-
 class RequestHandler(http.server.SimpleHTTPRequestHandler):
     def do_POST(self):
         if self.path == '/API/control_led.php':
@@ -24,6 +23,8 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
             if index is not None and state in ['on', 'off', 'up', 'down']:
                 # Create the command based on input
                 if index.startswith('fan'):
+                    # Remove any unintended '+' sign
+                    index = index.replace('+', '')
                     command = f"toggle {index}"  # No "led" prefix for fan commands
                 else:
                     command = f"toggle led {index}"  # Prefix "led" for LED commands
@@ -64,7 +65,8 @@ def read_sensor_data_from_serial(ser):
 
             try:
                 data = json.loads(line)
-                response = requests.post(API_URL, data=data)
+                # Convert dict to JSON data
+                response = requests.post(API_URL, json=data)
                 print(f"Data sent to API, response: {response.text}")
             except json.JSONDecodeError:
                 print("Received non-JSON data from Arduino")
