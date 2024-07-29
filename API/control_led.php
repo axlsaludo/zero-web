@@ -3,6 +3,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $index = $_POST['index'];
     $state = $_POST['state'];
 
+    // Log the received data for debugging
+    error_log("Received index: $index, state: $state");
+
     $url = 'http://localhost:8000/API/control_led.php';
     $data = array('index' => $index, 'state' => $state);
 

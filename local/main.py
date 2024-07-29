@@ -21,9 +21,12 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
             index = data.get('index')
             state = data.get('state')
 
-            if index is not None and state in ['on', 'off']:
+            if index is not None and state in ['on', 'off', 'up', 'down']:
                 # Create the command based on input
-                command = f"toggle led {index}"
+                if index.startswith('fan'):
+                    command = f"toggle {index}"  # No "led" prefix for fan commands
+                else:
+                    command = f"toggle led {index}"  # Prefix "led" for LED commands
 
                 if self.server.serial_connection:
                     # Send the command directly to Arduino

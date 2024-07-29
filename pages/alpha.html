@@ -32,7 +32,6 @@
             <div class="card controls">
                 <div class="card-header">
                     <h2>Light Control</h2>
-                    <button id="toggleAllLEDs">Toggle All LEDs</button>
                 </div>
                 <div class="led-buttons">
                     <div class="led-card-auto" id="autoled">
@@ -88,7 +87,6 @@
             <div class="card fan-controls">
                 <div class="card-header">
                     <h2>Fan Controls</h2>
-                    <button id="toggleAllFans">Toggle All Fans</button>
                 </div>
                 <div class="fan-buttons">
                     <div class="fan-card" id="fan1">
@@ -108,34 +106,12 @@
                         </label>
                     </div>
                 </div>
-                <!-- New Card for Fan Auto Mode -->
-                <div class="card auto-mode">
-                    <div class="card-header">
-                        <h2>Fan Auto Mode</h2>
-                    </div>
-                    <div class="auto-mode-controls">
-                        <label class="switch">
-                            <input type="checkbox" id="autoModeToggle">
-                            <span class="slider"></span>
-                        </label>
-                        <span class="auto-mode-label">Enable Auto Mode</span>
-                    </div>
-                </div>
             </div>             
             <div class="card garage">
                 <div class="card-header">
                     <h2>Garage</h2>
                 </div>
                 <div class="garage-controls">
-                    <!-- Override Mode Card -->
-                    <div class="card mode-card override-mode">
-                        <h3>Override Mode</h3>
-                            <label class="garagesw switch">
-                                <input type="checkbox" id="overrideToggle">
-                                <span class="slider"></span>
-                            </label>
-                    </div>
-            
                     <!-- Manual Mode Card -->
                     <div class="card mode-card manual-mode">
                         <h3>Manual Mode</h3>
@@ -144,16 +120,6 @@
                             <button id="manualDown" class="control-button">Down</button>
                         </div>
                     </div>
-            
-                    <!-- Automatic Mode Card -->
-                    <div class="card mode-card automatic-mode">
-                        <h3>Automatic Mode</h3>
-                            <label class="garagesw switch">
-                                <input type="checkbox" id="autoToggle">
-                                <span class="slider"></span>
-                            </label>
-                    </div>
-            
                     <!-- IR Sensor Card -->
                     <div class="card ir-sensor">
                         <h3>IR Sensor</h3>

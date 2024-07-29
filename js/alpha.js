@@ -13,11 +13,6 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(error => console.error('Error:', error));
     }
 
-    // LED Controls
-    document.getElementById('toggleAllLEDs').addEventListener('click', function () {
-        sendCommand('/axl.com/API/control_led.php', {index: 'all', state: 'toggle'});
-    });
-
     document.getElementById('toggleAutoLed').addEventListener('change', function () {
         const state = this.checked ? 'enable' : 'disable';
         sendCommand('/axl.com/API/control_led.php', {index: 'auto', state: state});
@@ -31,42 +26,23 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Fan Controls
-    document.getElementById('toggleAllFans').addEventListener('click', function () {
-        sendCommand('/axl.com/API/control_led.php', {index: 'all', state: 'toggleFans'});
-    });
-
     document.getElementById('toggleFan1').addEventListener('change', function () {
         const state = this.checked ? 'on' : 'off';
-        sendCommand('/axl.com/API/control_led.php', {index: 'fan1', state: state});
+        sendCommand('/axl.com/API/control_led.php', {index: 'fan 1', state: state});
     });
 
     document.getElementById('toggleFan2').addEventListener('change', function () {
         const state = this.checked ? 'on' : 'off';
-        sendCommand('/axl.com/API/control_led.php', {index: 'fan2', state: state});
-    });
-
-    document.getElementById('autoModeToggle').addEventListener('change', function () {
-        const state = this.checked ? 'enable' : 'disable';
-        sendCommand('/axl.com/API/control_led.php', {index: 'autoMode', state: state});
+        sendCommand('/axl.com/API/control_led.php', {index: 'fan 2', state: state});
     });
 
     // Garage Controls
-    document.getElementById('overrideToggle').addEventListener('change', function () {
-        const state = this.checked ? 'enable' : 'disable';
-        sendCommand('/axl.com/API/control_led.php', {index: 'override', state: state});
-    });
-
     document.getElementById('manualUp').addEventListener('click', function () {
         sendCommand('/axl.com/API/control_led.php', {index: 'manual', state: 'up'});
     });
 
     document.getElementById('manualDown').addEventListener('click', function () {
         sendCommand('/axl.com/API/control_led.php', {index: 'manual', state: 'down'});
-    });
-
-    document.getElementById('autoToggle').addEventListener('change', function () {
-        const state = this.checked ? 'enable' : 'disable';
-        sendCommand('/axl.com/API/control_led.php', {index: 'auto', state: state});
     });
 
     // Function to fetch sensor data
