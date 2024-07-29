@@ -1,183 +1,74 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Function to fetch sensor data from PHP backend
-    function fetchSensorData() {
-        fetch('../API/fetchSensorData.php')
-            .then(response => response.json())
-            .then(data => {
-                // Update HTML elements with the fetched data
-                document.getElementById('outside-humidity').textContent = `${data.humidity}%`;
-                document.getElementById('outside-temperature').textContent = `${data.temperature}°C`;
-                document.getElementById('ldr-status').textContent = data.ldr;
-                document.getElementById('irStatus').textContent = `IR Sensor: ${data.ir}`;
-                
-                // Update LED and Fan statuses
-                document.getElementById('toggle0').checked = data.led[0];
-                document.getElementById('toggle1').checked = data.led[1];
-                document.getElementById('toggle2').checked = data.led[2];
-                document.getElementById('toggle3').checked = data.led[3];
-                document.getElementById('toggle4').checked = data.led[4];
+document.addEventListener('DOMContentLoaded', () => {
+    const fetchData = async () => {
+        try {
+            const response = await fetch('http://localhost/axl.com/API/sensorData.php');
+            const data = await response.json();
+            document.getElementById('outside-humidity').textContent = `${data.humidity}%`;
+            document.getElementById('outside-temperature').textContent = `${data.temperature}°C`;
+            document.getElementById('ldr-status').textContent = data.ldr;
+            document.getElementById('irStatus').textContent = `IR Sensor: ${data.ir}`;
+        } catch (error) {
+            console.error('Error fetching sensor data:', error);
+        }
+    };
 
-                document.getElementById('toggleFan1').checked = data.fan[0];
-                document.getElementById('toggleFan2').checked = data.fan[1];
-
-                // Update Auto Mode toggles
-                document.getElementById('toggleAutoLed').checked = data.ledAutoMode;
-                document.getElementById('autoModeToggle').checked = data.fanAutoMode;
-                document.getElementById('overrideToggle').checked = data.overrideMode;
-                document.getElementById('autoToggle').checked = data.garageAutoMode;
-            })
-            .catch(error => console.error('Error fetching sensor data:', error));
-    }
-
-    // Fetch data every 5 seconds
-    setInterval(fetchSensorData, 5000);
-
-    // Add event listeners for buttons and toggles
-    document.getElementById('toggleAllLEDs').addEventListener('click', function() {
-        // Send request to toggle all LEDs
-        fetch('http://localhost:8000', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'toggleLED', ledIndex: 'all', state: '1' })
-        })
-            .then(response => response.json())
-            .then(result => console.log(result))
-            .catch(error => console.error('Error toggling all LEDs:', error));
-    });
-
-    document.getElementById('toggleAllFans').addEventListener('click', function() {
-        // Send request to toggle all fans
-        fetch('http://localhost:8000', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'toggleFan', fanIndex: 'all', state: '1' })
-        })
-            .then(response => response.json())
-            .then(result => console.log(result))
-            .catch(error => console.error('Error toggling all fans:', error));
-    });
-
-    // Event listeners for individual LEDs
-    document.querySelectorAll('.led-card input[type="checkbox"]').forEach((checkbox, index) => {
-        checkbox.addEventListener('change', function() {
-            const state = this.checked ? '1' : '0';
-            fetch('http://localhost:8000', {
+    const sendCommand = async (command) => {
+        try {
+            await fetch('http://localhost/axl.com/API/updateSensor.php', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: 'toggleLED', ledIndex: index, state: state })
-            })
-                .then(response => response.json())
-                .then(result => console.log(result))
-                .catch(error => console.error('Error updating LED state:', error));
-        });
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ command }),
+            });
+        } catch (error) {
+            console.error('Error sending command:', error);
+        }
+    };
+
+    // Set up event listeners for controls
+    document.getElementById('toggleAllLEDs').addEventListener('click', () => {
+        sendCommand('toggle all leds');
     });
 
-    // Event listeners for individual fans
-    document.querySelectorAll('.fan-card input[type="checkbox"]').forEach((checkbox, index) => {
-        checkbox.addEventListener('change', function() {
-            const state = this.checked ? '1' : '0';
-            fetch('http://localhost:8000', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: 'toggleFan', fanIndex: index, state: state })
-            })
-                .then(response => response.json())
-                .then(result => console.log(result))
-                .catch(error => console.error('Error updating fan state:', error));
-        });
+    document.getElementById('toggleAllFans').addEventListener('click', () => {
+        sendCommand('toggle all fans');
     });
 
-    // Auto mode toggles
-    document.getElementById('toggleAutoLed').addEventListener('change', function() {
-        const state = this.checked ? '1' : '0';
-        fetch('http://localhost:8000', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'updateAutoMode', mode: 'led', state: state })
-        })
-            .then(response => response.json())
-            .then(result => console.log(result))
-            .catch(error => console.error('Error updating LED auto mode:', error));
-    });
+    // Fetch initial data
+    fetchData();
 
-    document.getElementById('autoModeToggle').addEventListener('change', function() {
-        const state = this.checked ? '1' : '0';
-        fetch('http://localhost:8000', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'updateAutoMode', mode: 'fan', state: state })
-        })
-            .then(response => response.json())
-            .then(result => console.log(result))
-            .catch(error => console.error('Error updating fan auto mode:', error));
-    });
-
-    document.getElementById('overrideToggle').addEventListener('change', function() {
-        const state = this.checked ? '1' : '0';
-        fetch('http://localhost:8000', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'updateOverrideMode', state: state })
-        })
-            .then(response => response.json())
-            .then(result => console.log(result))
-            .catch(error => console.error('Error updating override mode:', error));
-    });
-
-    document.getElementById('autoToggle').addEventListener('change', function() {
-        const state = this.checked ? '1' : '0';
-        fetch('http://localhost:8000', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'updateAutoMode', mode: 'garage', state: state })
-        })
-            .then(response => response.json())
-            .then(result => console.log(result))
-            .catch(error => console.error('Error updating garage auto mode:', error));
-    });
+    // Periodically update sensor data
+    setInterval(fetchData, 1000); // Update every 5 seconds
 });
 
 
-// Function to update LED state
-function updateLEDState(ledIndex, state) {
-    fetch('http://localhost:8000/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            action: 'toggleLED',
-            ledIndex: ledIndex,
-            state: state
-        })
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok ' + response.statusText);
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log('LED update successful:', data);
-    })
-    .catch(error => {
-        console.error('Error updating LED state:', error);
+document.addEventListener('DOMContentLoaded', () => {
+    const toggleElements = document.querySelectorAll('.led-card input[type="checkbox"]');
+    
+    toggleElements.forEach(element => {
+        element.addEventListener('change', async (event) => {
+            const ledIndex = event.target.id.replace('toggle', '');
+            const state = event.target.checked ? 'on' : 'off';
+            await sendLEDCommand(ledIndex, state);
+        });
     });
-}
 
-// Function to fetch sensor data
-function fetchSensorData() {
-    fetch('http://localhost:8000/fetchSensorData.php')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok ' + response.statusText);
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log('Sensor data:', data);
-    })
-    .catch(error => {
-        console.error('Error fetching sensor data:', error);
+    document.getElementById('toggleAllLEDs').addEventListener('click', async () => {
+        await sendLEDCommand('all', 'toggle');
     });
+});
+
+async function sendLEDCommand(ledIndex, state) {
+    try {
+        const response = await fetch(`../API/home/control_led?index=${ledIndex}&state=${state}`, { method: 'POST' });
+        if (response.ok) {
+            const result = await response.json();
+            console.log(result.message);
+        } else {
+            console.error('Error controlling LED:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
 }
