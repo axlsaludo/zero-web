@@ -2,6 +2,7 @@ import serial
 import requests
 import json
 import time
+import os
 
 # Configuration
 SERIAL_PORT = 'COM3'  # Adjust to your actual serial port
@@ -37,12 +38,14 @@ def send_data_to_php(data):
 
 def read_command():
     """Read the command from the command file."""
-    try:
-        with open(COMMAND_FILE, 'r') as file:
-            command = file.read().strip()
-        return command
-    except FileNotFoundError:
-        return None
+    if os.path.exists(COMMAND_FILE):
+        try:
+            with open(COMMAND_FILE, 'r') as file:
+                command = file.read().strip()
+            return command
+        except IOError as e:
+            print(f'Error reading command file: {e}')
+    return None
 
 def send_command_to_arduino(command, ser):
     """Send command to Arduino."""

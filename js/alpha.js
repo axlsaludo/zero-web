@@ -61,10 +61,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function sendLEDCommand(ledIndex, state) {
     try {
-        const response = await fetch(`../API/home/control_led?index=${ledIndex}&state=${state}`, { method: 'POST' });
+        const response = await fetch('/API/control_led.php', { // Ensure this path matches your PHP file location
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded', // Set content type for form data
+            },
+            body: new URLSearchParams({
+                'index': ledIndex,
+                'state': state
+            })
+        });
+
         if (response.ok) {
             const result = await response.json();
-            console.log(result.message);
+            console.log(result.message); // Adjust this to handle response data as needed
         } else {
             console.error('Error controlling LED:', response.statusText);
         }
