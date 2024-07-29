@@ -1,0 +1,369 @@
+/* Global Styles */
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+body, html {
+    background: radial-gradient(circle at center, #2d2d2d, #3c3c3c, #4c4c4c, #2d2d2d, #636363);
+    background-color: #2d2d2d;
+    background-size: 200% 200%;
+    background-repeat: no-repeat;
+    line-height: 1.6;;
+    margin: 20;
+    animation: gradient 20s ease-in-out infinite;
+    position: relative;
+    overflow: visible;
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 20% 20%;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+    100% {
+        background-position: 20% 20%;
+    }
+}
+
+/* Dashboard Container */
+.dashboard {
+    display: flex;
+    flex-direction: column;   
+}
+
+/* Main Content */
+main {
+    padding: 20px;
+}
+
+.top{
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    align-items: center;
+    flex: auto;
+    text-align: center;
+}
+
+h1, h2, h3 {
+    color: #d6d6d6;
+}
+
+h1 { font-size: 2.0em; }
+h2 { font-size: 1.8em; }
+h3 { font-size: 1.5em; }
+
+p {
+    font-size: 1.1em;
+    color: #d6d6d6;
+}
+
+a {
+    color: #d6d6d6;
+}
+
+/* Top Row */
+.top-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.card {
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    background: rgba(9, 9, 9, 0.25);
+    border-radius: 16px;
+    padding: 30px;
+}
+
+.welcome, .light-status {
+    flex: 1;
+    max-width: 560px;
+}
+
+/* Light Control Section */
+.controls, .fan-controls, .garage {
+    width:auto;
+    margin-bottom: 20px;
+    max-width: 1200px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.card-header h2 {
+    margin: 0;
+}
+
+.card-header button {
+    padding: 10px 20px;
+    font-size: 14px;
+    color: #2d2d2d;
+    background-color: #d6d6d6;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.card-header button:hover {
+    background-color: #96a081;
+}
+
+/* LED and Fan Buttons */
+.led-buttons, .fan-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.led-card, .fan-card {
+    color: #d6d6d6;
+    flex: auto;
+    width: 150px;
+    height: 120px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    background: rgba(9, 9, 9, 0.25);
+}
+
+.led-card-auto{
+    color: #d6d6d6;
+    flex: auto;
+    width: 150px;
+    height: 120px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    background: rgba(1, 45, 2, 0.327);
+}
+
+.led-card-auto:hover, .led-card:hover, .fan-card:hover {
+    background-color: rgba(36, 36, 36, 0.437);
+    color: #96a081;
+}
+
+.led-label, .fan-label {
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* Switch Styling */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+    margin-top: 5px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #96a081;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* Move Motor Button */
+.garage button {
+    padding: 12px 20px;
+    font-size: 16px;
+    color: #2d2d2d;
+    background-color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.garage button:hover {
+    background-color: #96a081;
+}
+
+/* Icon Styling */
+.led-card i, .fan-card i {
+    font-size: 24px;
+    color: white;
+}
+.led-card:hover i, .fan-card:hover i {
+    color: #96a081;
+}       
+
+
+.logout {
+    padding: 10px 20px;
+    font-size: 14px;
+    color: #2d2d2d;
+    background-color: #d6d6d6;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    
+    display: flex;
+    align-items: center;
+}
+
+.logout:hover {
+    background-color: #96a081;
+}
+
+
+/* FANS */
+
+/* Styling for the Auto Mode Card */
+.card.auto-mode {
+    margin-top: 20px; /* Space above the card */
+}
+
+.auto-mode-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.auto-mode-label {
+    color: white;
+    font-size: 16px;
+}
+
+/* Garage */
+
+
+/* General card styling for new cards */
+.card.override-mode, .card.manual-mode, .card.automatic-mode, .card.ir-sensor {
+    margin-top: 20px; /* Space above the card */
+    padding: 15px; /* Padding inside the card */
+    border-radius: 5px; /* Rounded corners */
+}
+
+.garage-controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+
+.mode-card {
+    flex: 1 1 calc(33.333% - 20px); /* 3 cards per row, with spacing */
+    box-sizing: border-box; /* Ensure padding and border are included in width */
+    max-width: calc(33.333% - 10px); /* Max width to fit 3 cards per row */
+    text-align: center;
+    margin-bottom: 10px; /* Margin below each card */
+}
+
+/* Styling for mode controls inside each card */
+.mode-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.mode-label {
+    font-size: 16px;
+    color: white;
+}
+
+/* Styling for the IR sensor card */
+.ir-sensor {
+    flex: 1 1 100%; /* Take full width */
+    max-width: 100%; /* Full width */
+    background-color: #ff556316; /* Default red background */
+    color: #d6d6d6;;
+}
+
+/* Styling for IR sensor card when detecting */
+.ir-sensor.detecting {
+    background-color: #4aff7518; /* Green background when detecting */
+    color: #d6d6d6;
+}
+
+.ir-controls p {
+    margin: 0;
+    font-size: 16px;
+}
+
+
+
+/* Styling for Manual Mode specific controls */
+.manual-controls {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    margin-top: 20px; /* Space above controls */
+    min-width: 100px;
+    
+}
+
+.control-button {
+    text-align: center; /* Center text */
+    font-size: 16px; /* Font size */
+    margin-bottom: 10px; /* Space between buttons */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s; /* Smooth background color transition */
+    min-width: 80px;
+}
+
+.control-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.garagesw{
+    margin-top: 40px;
+}

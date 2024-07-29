@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Home Dashboard</title>
+    <link rel="stylesheet" href="../css/alpha.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <h1 class="top">Smart Home Control</h1>
+    <div class="dashboard">
+        <main>
+            <div class="top-row">
+                <div class="card welcome">
+                    <h1>Welcome, User!</h1>
+                    <p id="message">Today is <br id="date" >Date</br> Have a great day!</p> <!-- Added Dynamic Message -->
+                    <button class="logout" id="logoutButton">Logout</button> <!-- Added Logout Button -->
+                </div>
+                              
+                <div class="card light-status">
+                    <h2>Sensors Feedback</h2>
+                    <div class="weather">
+                        <p>Humidity: <span id="outside-humidity">--%</span></p>
+                        <p>Temperature: <span id="outside-temperature">--°C</span></p>
+                        <p>LDR Value: <span id="ldr-status">--</span></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card controls">
+                <div class="card-header">
+                    <h2>Light Control</h2>
+                    <button id="toggleAllLEDs">Toggle All LEDs</button>
+                </div>
+                <div class="led-buttons">
+                    <div class="led-card-auto" id="autoled">
+                        <i class="fa fa-lightbulb"></i>
+                        <span class="led-label">Automatic </span>
+                        <label class="switch">
+                            <input type="checkbox" id="toggleAutoLed">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="led-card" id="led0">
+                        <i class="fa fa-lightbulb"></i>
+                        <span class="led-label">Garage</span>
+                        <label class="switch">
+                            <input type="checkbox" id="toggle0">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="led-card" id="led1">
+                        <i class="fa fa-lightbulb"></i>
+                        <span class="led-label">Living Room</span>
+                        <label class="switch">
+                            <input type="checkbox" id="toggle1">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="led-card" id="led2">
+                        <i class="fa fa-lightbulb"></i>
+                        <span class="led-label">Master Bedroom</span>
+                        <label class="switch">
+                            <input type="checkbox" id="toggle2">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="led-card" id="led3">
+                        <i class="fa fa-lightbulb"></i>
+                        <span class="led-label">Bathroom</span>
+                        <label class="switch">
+                            <input type="checkbox" id="toggle3">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="led-card" id="led4">
+                        <i class="fa fa-lightbulb"></i>
+                        <span class="led-label">Bedroom</span>
+                        <label class="switch">
+                            <input type="checkbox" id="toggle4">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="card fan-controls">
+                <div class="card-header">
+                    <h2>Fan Controls</h2>
+                    <button id="toggleAllFans">Toggle All Fans</button>
+                </div>
+                <div class="fan-buttons">
+                    <div class="fan-card" id="fan1">
+                        <i class="fa fa-fan"></i>
+                        <span class="fan-label">Fan 1</span>
+                        <label class="switch">
+                            <input type="checkbox" id="toggleFan1">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="fan-card" id="fan2">
+                        <i class="fa fa-fan"></i>
+                        <span class="fan-label">Fan 2</span>
+                        <label class="switch">
+                            <input type="checkbox" id="toggleFan2">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <!-- New Card for Fan Auto Mode -->
+                <div class="card auto-mode">
+                    <div class="card-header">
+                        <h2>Fan Auto Mode</h2>
+                    </div>
+                    <div class="auto-mode-controls">
+                        <label class="switch">
+                            <input type="checkbox" id="autoModeToggle">
+                            <span class="slider"></span>
+                        </label>
+                        <span class="auto-mode-label">Enable Auto Mode</span>
+                    </div>
+                </div>
+            </div>             
+            <div class="card garage">
+                <div class="card-header">
+                    <h2>Garage</h2>
+                </div>
+                <div class="garage-controls">
+                    <!-- Override Mode Card -->
+                    <div class="card mode-card override-mode">
+                        <h3>Override Mode</h3>
+                            <label class="garagesw switch">
+                                <input type="checkbox" id="overrideToggle">
+                                <span class="slider"></span>
+                            </label>
+                    </div>
+            
+                    <!-- Manual Mode Card -->
+                    <div class="card mode-card manual-mode">
+                        <h3>Manual Mode</h3>
+                        <div class="manual-controls">
+                            <button id="manualUp" class="control-button">Up</button>
+                            <button id="manualDown" class="control-button">Down</button>
+                        </div>
+                    </div>
+            
+                    <!-- Automatic Mode Card -->
+                    <div class="card mode-card automatic-mode">
+                        <h3>Automatic Mode</h3>
+                            <label class="garagesw switch">
+                                <input type="checkbox" id="autoToggle">
+                                <span class="slider"></span>
+                            </label>
+                    </div>
+            
+                    <!-- IR Sensor Card -->
+                    <div class="card ir-sensor">
+                        <h3>IR Sensor</h3>
+                        <p id="irStatus">IR Sensor: --</p>
+                    </div>
+                </div>
+            </div>               
+        </main>
+    </div>
+    <script src="../js/alpha.js"></script>
+</body>
+</html>
