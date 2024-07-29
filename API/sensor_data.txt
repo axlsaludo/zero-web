@@ -1,1 +1,0 @@
-{"temperature": 28.5, "humidity": 57.0, "ir": 1, "ldr": 0}

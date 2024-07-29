@@ -1,84 +1,93 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const fetchData = async () => {
-        try {
-            const response = await fetch('http://localhost/axl.com/API/sensorData.php');
-            const data = await response.json();
-            document.getElementById('outside-humidity').textContent = `${data.humidity}%`;
-            document.getElementById('outside-temperature').textContent = `${data.temperature}°C`;
-            document.getElementById('ldr-status').textContent = data.ldr;
-            document.getElementById('irStatus').textContent = `IR Sensor: ${data.ir}`;
-        } catch (error) {
-            console.error('Error fetching sensor data:', error);
-        }
-    };
-
-    const sendCommand = async (command) => {
-        try {
-            await fetch('http://localhost/axl.com/API/updateSensor.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ command }),
-            });
-        } catch (error) {
-            console.error('Error sending command:', error);
-        }
-    };
-
-    // Set up event listeners for controls
-    document.getElementById('toggleAllLEDs').addEventListener('click', () => {
-        sendCommand('toggle all leds');
-    });
-
-    document.getElementById('toggleAllFans').addEventListener('click', () => {
-        sendCommand('toggle all fans');
-    });
-
-    // Fetch initial data
-    fetchData();
-
-    // Periodically update sensor data
-    setInterval(fetchData, 1000); // Update every 5 seconds
-});
-
-
-document.addEventListener('DOMContentLoaded', () => {
-    const toggleElements = document.querySelectorAll('.led-card input[type="checkbox"]');
-    
-    toggleElements.forEach(element => {
-        element.addEventListener('change', async (event) => {
-            const ledIndex = event.target.id.replace('toggle', '');
-            const state = event.target.checked ? 'on' : 'off';
-            await sendLEDCommand(ledIndex, state);
-        });
-    });
-
-    document.getElementById('toggleAllLEDs').addEventListener('click', async () => {
-        await sendLEDCommand('all', 'toggle');
-    });
-});
-
-async function sendLEDCommand(ledIndex, state) {
-    try {
-        const response = await fetch('/API/control_led.php', { // Ensure this path matches your PHP file location
+document.addEventListener('DOMContentLoaded', function () {
+    // Function to send command to the backend
+    function sendCommand(url, data) {
+        fetch(url, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded', // Set content type for form data
+                'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: new URLSearchParams({
-                'index': ledIndex,
-                'state': state
-            })
-        });
-
-        if (response.ok) {
-            const result = await response.json();
-            console.log(result.message); // Adjust this to handle response data as needed
-        } else {
-            console.error('Error controlling LED:', response.statusText);
-        }
-    } catch (error) {
-        console.error('Error:', error);
+            body: new URLSearchParams(data)
+        })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error:', error));
     }
-}
+
+    // LED Controls
+    document.getElementById('toggleAllLEDs').addEventListener('click', function () {
+        sendCommand('/axl.com/API/control_led.php', {index: 'all', state: 'toggle'});
+    });
+
+    document.getElementById('toggleAutoLed').addEventListener('change', function () {
+        const state = this.checked ? 'enable' : 'disable';
+        sendCommand('/axl.com/API/control_led.php', {index: 'auto', state: state});
+    });
+
+    ['toggle0', 'toggle1', 'toggle2', 'toggle3', 'toggle4'].forEach((id, index) => {
+        document.getElementById(id).addEventListener('change', function () {
+            const state = this.checked ? 'on' : 'off';
+            sendCommand('/axl.com/API/control_led.php', {index: index, state: state});
+        });
+    });
+
+    // Fan Controls
+    document.getElementById('toggleAllFans').addEventListener('click', function () {
+        sendCommand('/axl.com/API/control_led.php', {index: 'all', state: 'toggleFans'});
+    });
+
+    document.getElementById('toggleFan1').addEventListener('change', function () {
+        const state = this.checked ? 'on' : 'off';
+        sendCommand('/axl.com/API/control_led.php', {index: 'fan1', state: state});
+    });
+
+    document.getElementById('toggleFan2').addEventListener('change', function () {
+        const state = this.checked ? 'on' : 'off';
+        sendCommand('/axl.com/API/control_led.php', {index: 'fan2', state: state});
+    });
+
+    document.getElementById('autoModeToggle').addEventListener('change', function () {
+        const state = this.checked ? 'enable' : 'disable';
+        sendCommand('/axl.com/API/control_led.php', {index: 'autoMode', state: state});
+    });
+
+    // Garage Controls
+    document.getElementById('overrideToggle').addEventListener('change', function () {
+        const state = this.checked ? 'enable' : 'disable';
+        sendCommand('/axl.com/API/control_led.php', {index: 'override', state: state});
+    });
+
+    document.getElementById('manualUp').addEventListener('click', function () {
+        sendCommand('/axl.com/API/control_led.php', {index: 'manual', state: 'up'});
+    });
+
+    document.getElementById('manualDown').addEventListener('click', function () {
+        sendCommand('/axl.com/API/control_led.php', {index: 'manual', state: 'down'});
+    });
+
+    document.getElementById('autoToggle').addEventListener('change', function () {
+        const state = this.checked ? 'enable' : 'disable';
+        sendCommand('/axl.com/API/control_led.php', {index: 'auto', state: state});
+    });
+
+    // Function to fetch sensor data
+    function fetchSensorData() {
+        fetch('/axl.com/API/sensorData.php')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('outside-humidity').textContent = data.humidity + '%';
+            document.getElementById('outside-temperature').textContent = data.temperature + '°C';
+            document.getElementById('ldr-status').textContent = data.ldr;
+            document.getElementById('irStatus').textContent = 'IR Sensor: ' + data.ir;
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    // Fetch sensor data every 2 seconds
+    setInterval(fetchSensorData, 2000);
+
+    // Logout functionality
+    document.getElementById('logoutButton').addEventListener('click', function () {
+        // Implement logout functionality here
+        alert('Logout clicked!');
+    });
+});

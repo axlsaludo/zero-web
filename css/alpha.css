@@ -323,7 +323,6 @@ input:checked + .slider:before {
 
 /* Styling for the IR sensor card */
 .ir-sensor {
-    flex: 1 1 100%; /* Take full width */
     max-width: 100%; /* Full width */
     background-color: #ff556316; /* Default red background */
     color: #d6d6d6;;

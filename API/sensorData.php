@@ -1,24 +1,25 @@
 <?php
-header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json");
+header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Max-Age: 3600");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-// Specify the file where data will be stored
-$filename = 'sensor_data.txt';
-
-// Handle POST request to save incoming JSON data
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $input = file_get_contents('php://input');
-    file_put_contents($filename, $input);
-}
+    $temperature = $_POST['temperature'];
+    $humidity = $_POST['humidity'];
+    $ir = $_POST['ir'];
+    $ldr = $_POST['ldr'];
+    $leds = $_POST['leds'];
 
-// Read data from the file
-if (file_exists($filename)) {
-    echo file_get_contents($filename);
-} else {
-    echo json_encode([
-        'temperature' => '--',
-        'humidity' => '--',
-        'ldr' => '--',
-        'ir' => '--'
-    ]);
+    // Store the data or perform any desired operations
+    // For simplicity, we'll just echo the data back
+    echo json_encode(array(
+        'temperature' => $temperature,
+        'humidity' => $humidity,
+        'ir' => $ir,
+        'ldr' => $ldr,
+        'leds' => $leds
+    ));
 }
 ?>

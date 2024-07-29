@@ -1,87 +1,76 @@
+import http.server
+import socketserver
 import serial
 import requests
 import json
+import threading
 import time
-import os
 
 # Configuration
 SERIAL_PORT = 'COM3'  # Adjust to your actual serial port
 BAUD_RATE = 9600
-COMMAND_FILE = 'led_command.txt'
 API_URL = 'http://localhost/axl.com/API/sensorData.php'
 
+class RequestHandler(http.server.SimpleHTTPRequestHandler):
+    def do_POST(self):
+        if self.path == '/API/control_led.php':
+            content_length = int(self.headers['Content-Length'])
+            post_data = self.rfile.read(content_length).decode('utf-8')
+            data = dict(item.split('=') for item in post_data.split('&'))
+
+            index = data.get('index')
+            state = data.get('state')
+
+            if index is not None and state in ['on', 'off']:
+                # Create the command based on input
+                command = f"toggle led {index}"
+
+                if self.server.serial_connection:
+                    # Send the command directly to Arduino
+                    self.server.serial_connection.write((command + '\n').encode())
+                    print(f"Command sent to Arduino: {command}")
+
+                # Send a response
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({'status': 'success', 'command': command}).encode('utf-8'))
+            else:
+                self.send_response(400)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({'error': 'Invalid input'}).encode('utf-8'))
+        else:
+            self.send_error(404, 'File not found')
+
+def run_server(serial_connection):
+    """Run the HTTP server."""
+    port = 8000
+    handler = RequestHandler
+    httpd = socketserver.TCPServer(("", port), handler)
+    httpd.serial_connection = serial_connection  # Set the serial connection here
+    print(f"Serving at port {port}")
+    httpd.serve_forever()
+
 def read_sensor_data_from_serial(ser):
-    """Read sensor data from Arduino via serial port."""
-    if ser.in_waiting > 0:
-        data = ser.readline().decode('utf-8').strip()
-        return data
-    return None
+    """Read sensor data from the serial connection and send it to the API."""
+    while True:
+        if ser.in_waiting > 0:
+            line = ser.readline().decode('utf-8').strip()
+            print(f"Received from Arduino: {line}")
 
-def send_data_to_php(data):
-    """Send JSON data to PHP script."""
-    try:
-        headers = {'Content-Type': 'application/json'}
-        response = requests.post(API_URL, headers=headers, json=data)
-        response.raise_for_status()  # Check for HTTP errors
+            try:
+                data = json.loads(line)
+                response = requests.post(API_URL, data=data)
+                print(f"Data sent to API, response: {response.text}")
+            except json.JSONDecodeError:
+                print("Received non-JSON data from Arduino")
+            except requests.RequestException as e:
+                print(f"Error sending data to API: {e}")
 
-        # Print raw response content for debugging
-        print('Raw response content:', response.text)
+        time.sleep(1)
 
-        # Attempt to parse JSON
-        response_data = response.json()
-        print('Data sent successfully:', response_data)
-
-    except requests.exceptions.RequestException as e:
-        print(f'Error sending data: {e}')
-    except json.JSONDecodeError:
-        print('Failed to decode JSON:', response.text)
-
-def read_command():
-    """Read the command from the command file."""
-    if os.path.exists(COMMAND_FILE):
-        try:
-            with open(COMMAND_FILE, 'r') as file:
-                command = file.read().strip()
-            return command
-        except IOError as e:
-            print(f'Error reading command file: {e}')
-    return None
-
-def send_command_to_arduino(command, ser):
-    """Send command to Arduino."""
-    try:
-        ser.write((command + '\n').encode())
-        print(f"Command sent to Arduino: {command}")
-    except serial.SerialException as e:
-        print(f'Error sending command to Arduino: {e}')
-
-def main():
-    """Main loop to read sensor data and handle commands."""
-    try:
-        with serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=1) as ser:
-            while True:
-                # Read sensor data
-                sensor_data = read_sensor_data_from_serial(ser)
-                if sensor_data:
-                    try:
-                        # Attempt to decode JSON data
-                        data = json.loads(sensor_data)
-                        # Send data to PHP script
-                        send_data_to_php(data)
-                    except json.JSONDecodeError:
-                        print(f'Failed to decode JSON: {sensor_data}')
-
-                # Read command and send to Arduino
-                command = read_command()
-                if command:
-                    send_command_to_arduino(command, ser)
-                    # Clear the command file after sending
-                    open(COMMAND_FILE, 'w').close()
-
-                time.sleep(1)  # Adjust the sleep time as needed
-
-    except serial.SerialException as e:
-        print(f'Error opening serial port: {e}')
-
-if __name__ == '__main__':
-    main()
+if __name__ == "__main__":
+    with serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=1) as ser:
+        threading.Thread(target=read_sensor_data_from_serial, args=(ser,), daemon=True).start()
+        run_server(ser)
