@@ -1,134 +1,130 @@
-// Function to toggle all LED checkboxes
-function toggleAllLEDs() {
-    // Get the button and all LED checkboxes
-    const toggleAllButton = document.getElementById('toggleAllLEDs');
-    const ledCheckboxes = document.querySelectorAll('.led-buttons input[type="checkbox"]');
-    
-    // Determine if the toggleAllButton is currently checked or not
-    const shouldCheck = !toggleAllButton.classList.contains('checked');
-    
-    // Update button state
-    if (shouldCheck) {
-        toggleAllButton.classList.add('checked');
-    } else {
-        toggleAllButton.classList.remove('checked');
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to fetch sensor data from PHP backend
+    function fetchSensorData() {
+        fetch('../API/fetchSensorData.php')
+            .then(response => response.json())
+            .then(data => {
+                // Update HTML elements with the fetched data
+                document.getElementById('outside-humidity').textContent = `${data.humidity}%`;
+                document.getElementById('outside-temperature').textContent = `${data.temperature}°C`;
+                document.getElementById('ldr-status').textContent = data.ldr;
+                document.getElementById('irStatus').textContent = `IR Sensor: ${data.ir}`;
+                
+                // Update LED and Fan statuses
+                document.getElementById('toggle0').checked = data.led[0];
+                document.getElementById('toggle1').checked = data.led[1];
+                document.getElementById('toggle2').checked = data.led[2];
+                document.getElementById('toggle3').checked = data.led[3];
+                document.getElementById('toggle4').checked = data.led[4];
+
+                document.getElementById('toggleFan1').checked = data.fan[0];
+                document.getElementById('toggleFan2').checked = data.fan[1];
+
+                // Update Auto Mode toggles
+                document.getElementById('toggleAutoLed').checked = data.ledAutoMode;
+                document.getElementById('autoModeToggle').checked = data.fanAutoMode;
+                document.getElementById('overrideToggle').checked = data.overrideMode;
+                document.getElementById('autoToggle').checked = data.garageAutoMode;
+            })
+            .catch(error => console.error('Error fetching sensor data:', error));
     }
-    
-    // Toggle all LED checkboxes
-    ledCheckboxes.forEach(checkbox => {
-        checkbox.checked = shouldCheck;
+
+    // Fetch data every 5 seconds
+    setInterval(fetchSensorData, 5000);
+
+    // Add event listeners for buttons and toggles
+    document.getElementById('toggleAllLEDs').addEventListener('click', function() {
+        // Send request to toggle all LEDs
+        fetch('../API/toggleAllLeds.php', { method: 'POST' })
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.error('Error toggling all LEDs:', error));
     });
-}
 
-// Event listener for the "Toggle All LEDs" button
-document.getElementById('toggleAllLEDs').addEventListener('click', toggleAllLEDs);
-
-
-// Function to toggle all fan checkboxes
-function toggleAllFans() {
-    // Get the button and all fan checkboxes
-    const toggleAllButton = document.getElementById('toggleAllFans');
-    const fanCheckboxes = document.querySelectorAll('.fan-buttons input[type="checkbox"]');
-    
-    // Determine if the toggleAllButton is currently checked or not
-    const shouldCheck = !toggleAllButton.classList.contains('checked');
-    
-    // Update button state
-    if (shouldCheck) {
-        toggleAllButton.classList.add('checked');
-    } else {
-        toggleAllButton.classList.remove('checked');
-    }
-    
-    // Toggle all fan checkboxes
-    fanCheckboxes.forEach(checkbox => {
-        checkbox.checked = shouldCheck;
+    document.getElementById('toggleAllFans').addEventListener('click', function() {
+        // Send request to toggle all fans
+        fetch('toggle_all_fans.php', { method: 'POST' })
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.error('Error toggling all fans:', error));
     });
-}
 
-// Event listener for the "Toggle All Fans" button
-document.getElementById('toggleAllFans').addEventListener('click', toggleAllFans);
+    // Event listeners for individual LEDs
+    document.querySelectorAll('.led-card input[type="checkbox"]').forEach((checkbox, index) => {
+        checkbox.addEventListener('change', function() {
+            const state = this.checked ? 1 : 0;
+            fetch('update_led.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `ledIndex=${index}&state=${state}`
+            })
+                .then(response => response.text())
+                .then(result => console.log(result))
+                .catch(error => console.error('Error updating LED state:', error));
+        });
+    });
 
-// Function to format date as DD MMMM
-function formatDate(date) {
-    const options = { day: '2-digit', month: 'long' };
-    return date.toLocaleDateString('en-US', options);
-}
+    // Event listeners for individual fans
+    document.querySelectorAll('.fan-card input[type="checkbox"]').forEach((checkbox, index) => {
+        checkbox.addEventListener('change', function() {
+            const state = this.checked ? 1 : 0;
+            fetch('update_fan.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `fanIndex=${index}&state=${state}`
+            })
+                .then(response => response.text())
+                .then(result => console.log(result))
+                .catch(error => console.error('Error updating fan state:', error));
+        });
+    });
 
-// Function to set the current date and message
-function setCurrentDateAndMessage() {
-    const dateElement = document.getElementById('date');
-    const messageElement = document.getElementById('message');
-    const today = new Date();
-    const formattedDate = formatDate(today);
-    
-    // Set date
-    dateElement.textContent = formattedDate;
-    
-    // Set message
-    messageElement.textContent = `Today is ${formattedDate}. Have a great day!`;
-}
+    // Auto mode toggles
+    document.getElementById('toggleAutoLed').addEventListener('change', function() {
+        const state = this.checked ? 1 : 0;
+        fetch('update_led_auto_mode.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `state=${state}`
+        })
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.error('Error updating LED auto mode:', error));
+    });
 
-// Call the function to set the date and message when the page loads
-document.addEventListener('DOMContentLoaded', setCurrentDateAndMessage);
+    document.getElementById('autoModeToggle').addEventListener('change', function() {
+        const state = this.checked ? 1 : 0;
+        fetch('update_fan_auto_mode.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `state=${state}`
+        })
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.error('Error updating fan auto mode:', error));
+    });
 
-// Function to handle logout
-function handleLogout() {
-    // Implement your logout logic here
-    window.location.href = 'login.html'; // Redirect to a login page
-}
+    document.getElementById('overrideToggle').addEventListener('change', function() {
+        const state = this.checked ? 1 : 0;
+        fetch('update_override_mode.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `state=${state}`
+        })
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.error('Error updating override mode:', error));
+    });
 
-// Add event listener to the Logout button
-document.getElementById('logoutButton').addEventListener('click', handleLogout);
-
-
-
-// garage 
-
-// Function to handle mode toggles
-function handleModeToggle(mode) {
-    const modeCheckbox = document.getElementById(mode + 'Toggle');
-    if (modeCheckbox.checked) {
-        console.log(`${mode.charAt(0).toUpperCase() + mode.slice(1)} Mode Enabled`);
-        // Implement mode-specific logic here
-    } else {
-        console.log(`${mode.charAt(0).toUpperCase() + mode.slice(1)} Mode Disabled`);
-        // Implement logic for disabling mode here
-    }
-}
-
-// Add event listeners for mode toggles
-document.getElementById('overrideToggle').addEventListener('change', () => handleModeToggle('override'));
-document.getElementById('manualToggle').addEventListener('change', () => handleModeToggle('manual'));
-document.getElementById('autoToggle').addEventListener('change', () => handleModeToggle('auto'));
-
-// Function to update IR sensor status
-function updateIRSensor(detecting) {
-    const irCard = document.querySelector('.card.ir-sensor');
-    const irStatus = document.getElementById('irStatus');
-
-    if (detecting) {
-        irCard.classList.add('detecting');
-        irStatus.textContent = 'IR Sensor: Detecting';
-    } else {
-        irCard.classList.remove('detecting');
-        irStatus.textContent = 'IR Sensor: Not Detecting';
-    }
-}
-
-// Example usage to simulate IR sensor detection (for testing purposes)
-setTimeout(() => updateIRSensor(true), 5000);  // Simulate detecting after 2 seconds
-setTimeout(() => updateIRSensor(false), 5000); // Simulate not detecting after 5 seconds
-
-
-// Function to handle "Up" button click
-document.getElementById('manualUp').addEventListener('click', function() {
-    console.log("Manual Up button clicked");
-    // Implement logic for "Up" button here
-});
-
-// Function to handle "Down" button click
-document.getElementById('manualDown').addEventListener('click', function() {
-    console.log("Manual Down button clicked");
-    // Implement logic for "Down" button here
+    document.getElementById('autoToggle').addEventListener('change', function() {
+        const state = this.checked ? 1 : 0;
+        fetch('update_garage_auto_mode.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `state=${state}`
+        })
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.error('Error updating garage auto mode:', error));
+    });
 });
