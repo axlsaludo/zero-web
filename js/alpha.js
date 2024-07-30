@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Function to send command to the backend
     function sendCommand(url, data) {
+        console.log('Sending command to:', url, 'with data:', data);
         fetch(url, {
             method: 'POST',
             headers: {
@@ -13,40 +13,70 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(error => console.error('Error:', error));
     }
 
-    document.getElementById('toggleAutoLed').addEventListener('change', function () {
-        const state = this.checked ? 'enable' : 'disable';
-        sendCommand('/axl.com/API/control_led.php', {index: 'auto', state: state});
-    });
+    const toggleAutoLed = document.getElementById('toggleAutoLed');
+    if (toggleAutoLed) {
+        toggleAutoLed.addEventListener('change', function () {
+            const state = this.checked ? 'enable' : 'disable';
+            sendCommand('/axl.com/API/control_led.php', {index: 'auto', state: state});
+        });
+    } else {
+        console.error('Element with ID "toggleAutoLed" not found.');
+    }
 
     ['toggle0', 'toggle1', 'toggle2', 'toggle3', 'toggle4'].forEach((id, index) => {
-        document.getElementById(id).addEventListener('change', function () {
-            const state = this.checked ? 'on' : 'off';
-            sendCommand('/axl.com/API/control_led.php', {index: index, state: state});
-        });
+        const element = document.getElementById(id);
+        if (element) {
+            element.addEventListener('change', function () {
+                const state = this.checked ? 'on' : 'off';
+                sendCommand('/axl.com/API/control_led.php', {index: index, state: state});
+            });
+        } else {
+            console.error('Element with ID', id, 'not found.');
+        }
     });
 
     // Fan Controls
-    document.getElementById('toggleFan1').addEventListener('change', function () {
-        const state = this.checked ? 'on' : 'off';
-        sendCommand('/axl.com/API/control_led.php', {index: 'fan 1', state: state});
-    });
+    const toggleFan1 = document.getElementById('toggleFan1');
+    if (toggleFan1) {
+        toggleFan1.addEventListener('change', function () {
+            const state = this.checked ? 'on' : 'off';
+            sendCommand('/axl.com/API/control_led.php', {index: 'fan1', state: state});
+        });
+    } else {
+        console.error('Element with ID "toggleFan1" not found.');
+    }
 
-    document.getElementById('toggleFan2').addEventListener('change', function () {
-        const state = this.checked ? 'on' : 'off';
-        sendCommand('/axl.com/API/control_led.php', {index: 'fan 2', state: state});
-    });
+    const toggleFan2 = document.getElementById('toggleFan2');
+    if (toggleFan2) {
+        toggleFan2.addEventListener('change', function () {
+            const state = this.checked ? 'on' : 'off';
+            sendCommand('/axl.com/API/control_led.php', {index: 'fan2', state: state});
+        });
+    } else {
+        console.error('Element with ID "toggleFan2" not found.');
+    }
 
     // Garage Controls
-    document.getElementById('manualUp').addEventListener('click', function () {
-        sendCommand('/axl.com/API/control_led.php', {index: 'manual', state: 'up'});
-    });
+    const manualUp = document.getElementById('manualUp');
+    if (manualUp) {
+        manualUp.addEventListener('click', function () {
+            sendCommand('/axl.com/API/control_led.php', {index: 'manual', state: 'up'});
+        });
+    } else {
+        console.error('Element with ID "manualUp" not found.');
+    }
 
-    document.getElementById('manualDown').addEventListener('click', function () {
-        sendCommand('/axl.com/API/control_led.php', {index: 'manual', state: 'down'});
-    });
+    const manualDown = document.getElementById('manualDown');
+    if (manualDown) {
+        manualDown.addEventListener('click', function () {
+            sendCommand('/axl.com/API/control_led.php', {index: 'manual', state: 'down'});
+        });
+    } else {
+        console.error('Element with ID "manualDown" not found.');
+    }
 
-    // Function to fetch sensor data
     function fetchSensorData() {
+        console.log('Fetching sensor data...');
         fetch('/axl.com/API/sensorData.php')
         .then(response => response.json())
         .then(data => {
@@ -62,8 +92,9 @@ document.addEventListener('DOMContentLoaded', function () {
     setInterval(fetchSensorData, 2000);
 
     // Logout functionality
-    document.getElementById('logoutButton').addEventListener('click', function () {
-        // Implement logout functionality here
+    document.querySelector('form[action="../API/logout.php"]').addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent default form submission
         alert('Logout clicked!');
+        // Implement additional logout logic here if needed
     });
 });
